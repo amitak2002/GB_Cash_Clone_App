@@ -16,9 +16,10 @@ export default function Signup() {
   const [otp , setOtp] = useState("")
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeOut = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
+    return () => clearTimeout(timeOut)
   }, []);
 
   console.log("number is : ", number);

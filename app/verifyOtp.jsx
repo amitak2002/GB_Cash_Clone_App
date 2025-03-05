@@ -9,6 +9,7 @@ import { verifyApi } from "../utils/AuthApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
+
 export default function VerifyOtp() {
   const { number } = useLocalSearchParams();
   const router = useRouter();
@@ -53,6 +54,8 @@ export default function VerifyOtp() {
   const handleOtpVerify = async () => {
     try {
       setLoading(true);
+      setMessage("")
+      setOTP("")
 
       const response = await axios.post(verifyApi, { phone: number, otp: otp }, {
         headers: { 'Content-Type': 'application/json' }
@@ -61,17 +64,20 @@ export default function VerifyOtp() {
       setLoading(false);
       console.log('response verify is : ', response);
       setMessage(response?.data?.message);
-      Alert.alert("Success", message || "OTP Verified Successfully");
-
+      Alert.alert("Success", "OTP Verified Successfully");
+      setVerify(true)
       if (number || otp) {
-        router.push("/panVerify");
+        router.push("/adharVerify");
       }
+    
     } catch (error) {
       setLoading(false);
       setMessage(error?.response?.data?.message);
-      setVerify(error?.response?.data?.success);
+      setVerify(false);
       console.log('error comes at verify otp : ', error);
       Alert.alert("Error", message || "Error during verification");
+      setMessage("")
+      setOTP("")
     }
   };
 
@@ -93,7 +99,7 @@ export default function VerifyOtp() {
         <Text style={styles.detailsText}>
           Pay bills, Recharge, Pay Education Fees, and do much more with us
         </Text>
-        <Text style={[styles.detailsText, { color: otp ? `green` : `red` }]}>{message}</Text>
+        <Text style={[styles.detailsText, { color: verify ? `green` : `red` }]}>{message}</Text>
       </View>
 
       <View style={styles.bottomContainer}>

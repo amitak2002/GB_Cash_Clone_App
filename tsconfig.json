@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/(routes)/onboarding/index.jsx", "app/index.jsx", "app/verifyOtp.jsx", "app/signup.jsx", "app/panVerify.jsx"  ]
+, "app/(routes)/onboarding/index.jsx", "app/index.jsx", "app/verifyOtp.jsx", "app/signup.jsx", "app/adharVerify.jsx", "app/verifyAdharOtp.jsx"  ]
 }
