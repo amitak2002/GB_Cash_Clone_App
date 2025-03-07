@@ -14,7 +14,7 @@ export default function VerifyOtp() {
   const { number } = useLocalSearchParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
+ 
   const [verify, setVerify] = useState(false);
   const [otp, setOTP] = useState("");
   const [timer, setTimer] = useState(`01:59`);
@@ -63,8 +63,8 @@ export default function VerifyOtp() {
 
       setLoading(false);
       console.log('response verify is : ', response);
-      setMessage(response?.data?.message);
-      Alert.alert("Success", "OTP Verified Successfully");
+      let msg = (response?.data?.message);
+      Alert.alert("Success", msg);
       setVerify(true)
       if (number || otp) {
         router.push("/adharVerify");
@@ -72,10 +72,10 @@ export default function VerifyOtp() {
     
     } catch (error) {
       setLoading(false);
-      setMessage(error?.response?.data?.message);
+      let err = (error?.response?.data?.message);
       setVerify(false);
       console.log('error comes at verify otp : ', error);
-      Alert.alert("Error", message || "Error during verification");
+      Alert.alert("Error", err);
       setMessage("")
       setOTP("")
     }

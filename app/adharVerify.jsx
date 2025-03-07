@@ -22,10 +22,6 @@ export default function AdharVerify() {
   const router = useRouter()
   const [loader , setLoader] = useState(true)
   const [adharNum , setAdharNum] = useState("")
-  const [err , setErr] = useState("")
-  
-  const [message , setMessage] = useState("")
-
   console.log('adharnumber is : ',adharNum)
 
   // to generate otp using adhar Number
@@ -43,8 +39,8 @@ export default function AdharVerify() {
       console.log('response of adharotp generate is : ',response)
       const referenceid = response?.data?.reference_id
       
-      setMessage(response?.data?.message)
-      Alert.alert("Sucess" , message || "OTP Created Sucessfully")
+      let msg = (response?.data?.message)
+      Alert.alert("Sucess" , msg)
       console.log('reference id is1 : ',referenceid)
       router.push({
         pathname: "/verifyAdharOtp",
@@ -54,8 +50,8 @@ export default function AdharVerify() {
     catch (error) {
       setLoader(false)
       console.log('error comes at adhatotp generate : ',error)
-      setErr(error?.response?.data?.message)
-      Alert.alert("Error" , err || "Something Error")
+      let Err = (error?.response?.data?.message)
+      Alert.alert("Error" , Err)
     }
     
   }

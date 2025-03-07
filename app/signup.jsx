@@ -12,7 +12,7 @@ export default function Signup() {
   const [number, setNumber] = useState("+91");
   const router = useRouter();
   const [loading, setIsLoading] = useState(true);
-  const [message, setMessage] = useState("");
+  
   const [otp , setOtp] = useState("")
 
   useEffect(() => {
@@ -35,9 +35,10 @@ export default function Signup() {
       console.log("response is : ", response);
 
       setNumber(number);
-      setMessage(response?.data?.message);
+      let message = response?.data?.message
+
       setOtp(response?.data?.data?.otp)
-      Alert.alert("Success", "OTP created successfully");
+      Alert.alert("Success", message);
 
       if (response.data.success) {
         router.push({ pathname: "/verifyOtp", params: { number } });
@@ -45,8 +46,8 @@ export default function Signup() {
     } catch (error) {
       setIsLoading(false);
       console.log("error at signup: ", error);
-      setMessage(error?.response?.data?.message);
-      Alert.alert("Error", message || "Something went wrong");
+      let Err = error?.response?.data?.message
+      Alert.alert("Error", Err);
     }
   };
 

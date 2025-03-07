@@ -22,9 +22,7 @@ export default function PanVerify() {
   const [loader , setLoader] = useState(true)
   const [panNum , setPanNum] = useState("")
   const [name , setName] = useState("")
-  const [message , setMessage] = useState("")
-  const [err , setErr] = useState("")
-
+  
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setLoader(false)
@@ -46,9 +44,9 @@ export default function PanVerify() {
         }}
       )  
       console.log('response of pan verification is : ',response)
-      setMessage(response.data.message)
+      let msg = (response.data.message)
       console.log("pan verified is : ",message)
-      Alert.alert("Success" , message || "verified Successfully")
+      Alert.alert("Success" , msg)
       router.push({
       pathname: "/end-user"
       });
@@ -56,10 +54,10 @@ export default function PanVerify() {
     } 
     catch (error) {
       setLoader(false)
-      setErr(error.response.data.message)
+      let err = (error.response.data.message)
       console.log('error comes at pan verification : ',error)
       console.log("erro pan verification is : ",err)
-      Alert.alert("Error" , err || "Something is Error")
+      Alert.alert("Error" , err)
     }
 
     

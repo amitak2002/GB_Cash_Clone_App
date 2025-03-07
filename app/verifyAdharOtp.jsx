@@ -17,8 +17,7 @@ function VerifyAhdarOtp() {
   const router = useRouter()
   const [loader , setLoader] = useState(true)
   const [otp , setOtp] = useState("")
-  const [message , setMessage] = useState("")
-  const [err , setErr] = useState("")
+  
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -40,17 +39,17 @@ function VerifyAhdarOtp() {
       )  
       setLoader(false)
       console.log("response after adhar otp verify : ",response)
-      setMessage(response?.data?.message)
-      Alert.alert("Success" , message || "Otp Verified")
+      let msg = (response?.data?.message)
+      Alert.alert("Success" , msg)
       router.push("/panVerify")
     } 
     catch (error) {
       setLoader(false)
       let errors = error.response.data.message
-      setErr(errors)
+      
       console.log("errro comes during otp verification : ",error)
-      Alert.alert("Error" , err || "Something Error")
-      console.log('error is : ',err)
+      Alert.alert("Error" , errors )
+      console.log('error is : ',errors)
     }
 
 
