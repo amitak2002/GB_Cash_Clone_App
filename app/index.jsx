@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Redirect } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Toast from "react-native-toast-message";
-
+ 
 export default function Index() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -31,10 +30,14 @@ export default function Index() {
     );
   }
 
+  //logic part is pending , and the logic part is that if user had all 3 verification stage passed then , it can move on endUser home screem else they were moved at required panel.
+  // if (all three staged passed then isAsuthenticated == true else false)
+
+
   return (
     <>
-      <Toast />
-      <Redirect href={isAuthenticated ? '/end-user/(endusertabs)' : '/(routes)/onboarding'} />
+      
+      <Redirect href={isAuthenticated ? '/end-user' : '/(routes)/onboarding'} />
     </>
   );
 }

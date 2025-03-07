@@ -1,24 +1,18 @@
 import AppButton from '@/components/AppButton'
 import AppInput from '@/components/AppInput'
-import React, { useEffect , useState } from 'react'
-import { View ,  Text , StyleSheet ,Alert} from 'react-native'
+import React , {useEffect , useState} from 'react'
+import { View ,  Text , StyleSheet } from 'react-native'
 import { useLocalSearchParams , useRouter } from 'expo-router'
 import { moderateScale , verticalScale } from 'react-native-size-matters'
 import LoaderScreen from '@/components/Loader'
-import axios from 'axios'
-import {adharOtpVerify} from '../utils/AuthApi.js'
- 
 
-function VerifyAhdarOtp() {
+function VerifyPanOtp() {
 
-  const { ref_id} = useLocalSearchParams()
-
-  console.log("ref id is2 : ",ref_id)
+  const {panNum} = useLocalSearchParams()
+  console.log('pan num is : ',panNum)
   const router = useRouter()
+
   const [loader , setLoader] = useState(true)
-  const [otp , setOtp] = useState("")
-  const [message , setMessage] = useState("")
-  const [err , setErr] = useState("")
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -28,37 +22,14 @@ function VerifyAhdarOtp() {
   },[])
 
   // to check or verify otp for adhar
-  const handleAdharOtpVerify = async () => {
+  const handlePanOtpVerify = () => {
 
-    try {
-      setLoader(true)
-      const response = await axios.post(adharOtpVerify , 
-        {aadhaarOtp : otp , ref_id : ref_id} ,
-        {headers : {
-          "Content-Type" : "application/json"
-        }}
-      )  
-      setLoader(false)
-      console.log("response after adhar otp verify : ",response)
-      setMessage(response?.data?.message)
-      Alert.alert("Success" , message || "Otp Verified")
-      router.push("/panVerify")
-    } 
-    catch (error) {
-      setLoader(false)
-      let errors = error.response.data.message
-      setErr(errors)
-      console.log("errro comes during otp verification : ",error)
-      Alert.alert("Error" , err || "Something Error")
-      console.log('error is : ',err)
+        router.push('/end-user')  
     }
 
-
-  }
-
-  if (loader) {
-    return <LoaderScreen/>
-  }
+    if (loader) {
+        return <LoaderScreen />
+    }
 
   return (
     <View style={style.container}>
@@ -70,13 +41,12 @@ function VerifyAhdarOtp() {
         <AppInput 
         style={style.input}
           placeholder={"enter Otp"}
-          onChangeText={setOtp}
         />
 
         <AppButton
         style={style.button}
-          title={"Verify Adhaar"}
-          onPress={handleAdharOtpVerify}
+          title={"Verify Pan"}
+          onPress={handlePanOtpVerify}
         />
       </View>
 
@@ -84,7 +54,7 @@ function VerifyAhdarOtp() {
   )
 }
 
-export default VerifyAhdarOtp
+export default VerifyPanOtp
 
 const style = StyleSheet.create({
     container : {

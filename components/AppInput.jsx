@@ -16,7 +16,7 @@ const AppInput = ({
   return (
     
       <TextInput
-        style={[style.container , style]}
+        style={[style]}
         placeholder={placeholder}
         placeholderTextColor="#999"
         keyboardType={keyboardType}
@@ -30,16 +30,7 @@ const AppInput = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: { 
-    width: '100%',
-    alignItems:'center',
-    justifyContent:'center',
-    
   
-  }
 
-  
-});
 
 export default AppInput;

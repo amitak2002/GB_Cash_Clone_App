@@ -5,12 +5,11 @@ import AppInput from '@/components/AppInput'
 import AppButton from '@/components/AppButton'
 import {  scale , verticalScale , moderateScale} from 'react-native-size-matters';
 import {useRouter} from 'expo-router'
-import axios from "axios"
-import {adharOtpGenerate} from "../utils/AuthApi.js"
+import axios from 'axios'
+import {panVerify} from '../utils/AuthApi.js'
 
 
-
-export default function AdharVerify() {
+export default function PanVerify() {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -21,42 +20,49 @@ export default function AdharVerify() {
 
   const router = useRouter()
   const [loader , setLoader] = useState(true)
-  const [adharNum , setAdharNum] = useState("")
-  const [err , setErr] = useState("")
-  
+  const [panNum , setPanNum] = useState("")
+  const [name , setName] = useState("")
   const [message , setMessage] = useState("")
+  const [err , setErr] = useState("")
 
-  console.log('adharnumber is : ',adharNum)
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setLoader(false)
+    }, 3000);
+    return () => clearTimeout(timeOut)
+  },[])
+
+  console.log('pan Number is : ',panNum)
 
   // to generate otp using adhar Number
   const handleGenerateOtp = async() => {
 
     try {
       setLoader(true)
-      const response = await axios.post(adharOtpGenerate , 
-        {aadhaarNumber : adharNum} , 
+      const response = await axios.post(panVerify , 
+        {PAN : panNum , name : name} , 
         {headers : {
           "Content-Type" : "application/json"
         }}
-      )
-      setLoader(false)
-      console.log('response of adharotp generate is : ',response)
-      const referenceid = response?.data?.reference_id
-      
-      setMessage(response?.data?.message)
-      Alert.alert("Sucess" , message || "OTP Created Sucessfully")
-      console.log('reference id is1 : ',referenceid)
+      )  
+      console.log('response of pan verification is : ',response)
+      setMessage(response.data.message)
+      console.log("pan verified is : ",message)
+      Alert.alert("Success" , message || "verified Successfully")
       router.push({
-        pathname: "/verifyAdharOtp",
-        params: { ref_id : referenceid}
+      pathname: "/end-user"
       });
+      setLoader(false)
     } 
     catch (error) {
       setLoader(false)
-      console.log('error comes at adhatotp generate : ',error)
-      setErr(error?.response?.data?.message)
-      Alert.alert("Error" , err || "Something Error")
+      setErr(error.response.data.message)
+      console.log('error comes at pan verification : ',error)
+      console.log("erro pan verification is : ",err)
+      Alert.alert("Error" , err || "Something is Error")
     }
+
+    
     
   }
 
@@ -67,26 +73,33 @@ export default function AdharVerify() {
     <View style={style.container}>
 
       <View style={style.header}>
-        <Text style={style.headerText}>Aadhaar Verification</Text>
+        <Text style={style.headerText}>Pan Verification</Text>
       </View>
 
       <View style={style.imageContainer}>
         <Image 
-          source={require("../assets/images/adharVerification.png")}
+          source={require("../assets/images/Pan.png")}
           style={style.image}
         />
       </View>
 
       <View style={style.footer}>
-        <AppInput 
-          placeholder={'Enter Aadhaar Number'}
+      <AppInput 
+          placeholder={'Enter Name '}
           style={style.inputAdharNumber}
-          onChangeText={setAdharNum}
+          onChangeText={setName}
+          keyboardType='text'
+          value={name}
+        />
+        <AppInput 
+          placeholder={'Enter Pan Number'}
+          style={style.inputAdharNumber}
+          onChangeText={setPanNum}
           keyboardType='number'
-          value={adharNum}
+          value={panNum}
         />
         <AppButton 
-          title = "Generate Otp"
+          title = "Verify"
           style={style.generateOtp}
           onPress={handleGenerateOtp}
         />
@@ -115,7 +128,7 @@ const style = StyleSheet.create({
     flex : moderateScale(1),
    
     width:scale(100),
-    width:'100%',
+    height:verticalScale(50),
     alignItems : 'center',
     
   },
@@ -138,9 +151,9 @@ const style = StyleSheet.create({
     borderBottomWidth: 1,   
     borderBottomColor: "gray",  
     fontWeight:500,
-    fontSize:moderateScale(14),
+    fontSize:moderateScale(13),
     alignItems:'center',
-    letterSpacing : 2
+    letterSpacing : 1
 
   },
   generateOtp : {

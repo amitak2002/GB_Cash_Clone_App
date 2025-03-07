@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   image: {
     width: scale(200),
     height: verticalScale(200),
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   title: {
     fontSize: moderateScale(24),
