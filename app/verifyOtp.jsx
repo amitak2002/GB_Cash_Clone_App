@@ -54,7 +54,7 @@ export default function VerifyOtp() {
   const handleOtpVerify = async () => {
     try {
       setLoading(true);
-      setMessage("")
+      
       setOTP("")
 
       const response = await axios.post(verifyApi, { phone: number, otp: otp }, {
@@ -76,7 +76,7 @@ export default function VerifyOtp() {
       setVerify(false);
       console.log('error comes at verify otp : ', error);
       Alert.alert("Error", err);
-      setMessage("")
+      
       setOTP("")
     }
   };
@@ -99,7 +99,7 @@ export default function VerifyOtp() {
         <Text style={styles.detailsText}>
           Pay bills, Recharge, Pay Education Fees, and do much more with us
         </Text>
-        <Text style={[styles.detailsText, { color: verify ? `green` : `red` }]}>{message}</Text>
+        
       </View>
 
       <View style={styles.bottomContainer}>

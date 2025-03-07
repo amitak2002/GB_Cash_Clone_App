@@ -44,8 +44,8 @@ export default function PanVerify() {
         }}
       )  
       console.log('response of pan verification is : ',response)
-      let msg = (response.data.message)
-      console.log("pan verified is : ",message)
+      let msg = (response?.data?.data?.message)
+      console.log("pan verified is : ",msg)
       Alert.alert("Success" , msg)
       router.push({
       pathname: "/end-user"

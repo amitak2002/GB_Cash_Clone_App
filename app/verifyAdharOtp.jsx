@@ -7,6 +7,7 @@ import { moderateScale , verticalScale } from 'react-native-size-matters'
 import LoaderScreen from '@/components/Loader'
 import axios from 'axios'
 import {adharOtpVerify} from '../utils/AuthApi.js'
+import { scale } from 'react-native-size-matters'
  
 
 function VerifyAhdarOtp() {
@@ -17,6 +18,33 @@ function VerifyAhdarOtp() {
   const router = useRouter()
   const [loader , setLoader] = useState(true)
   const [otp , setOtp] = useState("")
+  const [timer, setTimer] = useState(`01:59`);
+
+   // count down
+    useEffect(() => {
+      let min = 1;
+      let sec = 59;
+  
+      const timerInterval = setInterval(() => {
+        if (min === 0 && sec === 0) {
+          setTimer(`OTP Expired`);
+          clearInterval(timerInterval); // Timer stop karega
+          return;
+        } else {
+          if (sec === 0) {
+            min -= 1;
+            sec = 59;
+          } else {
+            sec -= 1;
+          }
+        }
+  
+        let time = `0${min}:${sec < 10 ? '0' + sec : sec}`;
+        setTimer(time);
+      }, 1000);
+  
+      return () => clearInterval(timerInterval);
+    }, []);
   
 
   useEffect(() => {
@@ -71,6 +99,7 @@ function VerifyAhdarOtp() {
           placeholder={"enter Otp"}
           onChangeText={setOtp}
         />
+        <Text style={style.timer}>{timer}</Text>
 
         <AppButton
         style={style.button}
@@ -116,5 +145,10 @@ const style = StyleSheet.create({
       width:'80%',
       marginTop:verticalScale(5),
       marginBottom:verticalScale(8)
-    }
+    },timer: {
+        fontSize: scale(12),
+        fontWeight: 600,
+        color: "#151313",
+        marginRight : 35
+      },
 })

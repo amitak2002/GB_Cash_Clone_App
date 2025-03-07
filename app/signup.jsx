@@ -12,7 +12,7 @@ export default function Signup() {
   const [number, setNumber] = useState("+91");
   const router = useRouter();
   const [loading, setIsLoading] = useState(true);
-  
+ 
   const [otp , setOtp] = useState("")
 
   useEffect(() => {
@@ -35,12 +35,11 @@ export default function Signup() {
       console.log("response is : ", response);
 
       setNumber(number);
-      let message = response?.data?.message
-
+      let msg = response?.data?.message
+      
       setOtp(response?.data?.data?.otp)
-      Alert.alert("Success", message);
-
-      if (response.data.success) {
+      Alert.alert("Success", msg);
+      if (response.data.success == true) {
         router.push({ pathname: "/verifyOtp", params: { number } });
       }
     } catch (error) {
@@ -68,7 +67,7 @@ export default function Signup() {
         <Text style={style.detailsText}>
           Pay bills , Recharge , Pay Education Fees and do much with us
         </Text>
-        <Text style={[style.detailsText, { color: otp ? 'green' : 'red'}]}>{message}</Text>
+        
 
       </View>
 
