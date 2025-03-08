@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function profile() {
   return (
-    <View>
+    <View style={{backgroundColor : "red"}}>
       <Text>profile</Text>
     </View>
   )

@@ -1,7 +1,7 @@
 import AppButton from '@/components/AppButton'
 import AppInput from '@/components/AppInput'
 import React, { useEffect , useState } from 'react'
-import { View ,  Text , StyleSheet ,Alert} from 'react-native'
+import { View ,  Text , StyleSheet ,Alert, ImageBackground, TouchableOpacity} from 'react-native'
 import { useLocalSearchParams , useRouter } from 'expo-router'
 import { moderateScale , verticalScale } from 'react-native-size-matters'
 import LoaderScreen from '@/components/Loader'
@@ -19,7 +19,7 @@ function VerifyAhdarOtp() {
   const [loader , setLoader] = useState(true)
   const [otp , setOtp] = useState("")
   const [timer, setTimer] = useState(`01:59`);
-
+  console.log('otp is : ',otp)
    // count down
     useEffect(() => {
       let min = 1;
@@ -29,7 +29,8 @@ function VerifyAhdarOtp() {
         if (min === 0 && sec === 0) {
           setTimer(`OTP Expired`);
           clearInterval(timerInterval); // Timer stop karega
-          return;
+          
+          return
         } else {
           if (sec === 0) {
             min -= 1;
@@ -50,7 +51,7 @@ function VerifyAhdarOtp() {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setLoader(false)
-    }, 3000);
+    }, 3000)
     return () => clearTimeout(timeOut)
   },[])
 
@@ -69,7 +70,8 @@ function VerifyAhdarOtp() {
       console.log("response after adhar otp verify : ",response)
       let msg = (response?.data?.message)
       Alert.alert("Success" , msg)
-      router.push("/panVerify")
+      
+      router.push("/end-user")
     } 
     catch (error) {
       setLoader(false)
@@ -78,9 +80,12 @@ function VerifyAhdarOtp() {
       console.log("errro comes during otp verification : ",error)
       Alert.alert("Error" , errors )
       console.log('error is : ',errors)
+      
+      
     }
-
-
+  }
+  const handleBackAdhar = () => {
+    router.push("/adharVerify")
   }
 
   if (loader) {
@@ -89,25 +94,40 @@ function VerifyAhdarOtp() {
 
   return (
     <View style={style.container}>
-
-      <View style={style.header}><Text>Header</Text></View>
+      <ImageBackground source={require("../assets/images/backGround.svg")}
+        style={style.ImageContainer}
+      >
+      <View style={style.header}>
+        
+      </View>
 
       <View style={style.footer}>
 
+        <View style={style.changeNumberContainer}>
+          <Text style={style.inputText}>OTP SENT TO {}</Text>
+          <TouchableOpacity onPress={handleBackAdhar}>
+            <Text style={style.changeNumber}>Change Number</Text>
+          </TouchableOpacity>
+        </View>
+
         <AppInput 
         style={style.input}
-          placeholder={"enter Otp"}
-          onChangeText={setOtp}
+          placeholder={"OTP CODE"}
+          onChangeText={(e) => setOtp(e)}
         />
-        <Text style={style.timer}>{timer}</Text>
+        <View style={style.resendOtpContainer}>
+          <Text style={style.resendText}>RESEND OTP</Text>
+          <Text style={style.timer}>{timer}</Text>
+        </View>
 
         <AppButton
         style={style.button}
-          title={"Verify Adhaar"}
+          title={"VERIFY"}
           onPress={handleAdharOtpVerify}
         />
       </View>
 
+      </ImageBackground>
     </View>
   )
 }
@@ -118,13 +138,16 @@ const style = StyleSheet.create({
     container : {
       flex : moderateScale(1)
     },
+    ImageContainer : {
+      width:'100%',
+      height:'100%'
+    },
     header : {
-      flex : moderateScale(0.7),
+      flex : moderateScale(0.6),
       
     },
     footer : {
-      flex : moderateScale(0.3),
-      
+      flex : moderateScale(0.45),
       alignItems:"center",
       justifyContent:'center'
     },
@@ -133,22 +156,63 @@ const style = StyleSheet.create({
       width : '80%',
       paddingVertical : verticalScale(15),
       marginBottom:verticalScale(8),
-      textAlign : 'center',
-      letterSpacing : 2,
+      color:"#F7F7F7",
       borderBottomColor:'#afa7a7',
-      fontWeight:700,
-      fontSize:15,
+      fontWeight:400,
+      fontSize:moderateScale(16),
       borderTopColor:'white',
-      borderBlockEndColor:'white'
+      borderBlockEndColor:'white',
+      lineHeight : moderateScale(22),
+      fontStyle:"Urbanist",
+      paddingHorizontal : scale(3)
+    },
+    resendOtpContainer:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      marginTop:verticalScale(15),
+      columnGap:scale(195)
+    },
+    resendText : {
+      marginLeft : scale(15),
+      fontStyle:"Urbanist",
+      fontWeight:400,
+      fontSize:moderateScale(12),
+      color : "#FFFFFF"
+    },
+    timer : {
+      marginRight:scale(14),
+      fontStyle:"Urbanist",
+      fontWeight:400,
+      fontSize:moderateScale(12),
+      color : "#FFFFFF"
     },
     button : {
-      width:'80%',
-      marginTop:verticalScale(5),
+      width:'65%',
+      marginTop:verticalScale(20),
       marginBottom:verticalScale(8)
-    },timer: {
+    },
+      changeNumberContainer : {
+        width:'100%',
+        flexDirection:'row',
+        justifyContent:"space-evenly",
+        columnGap:scale(10),
+        marginBottom:verticalScale(15)
+      },
+      changeNumber : {
+        fontStyle:"Urbanist",
+        textAlign: "center",
+        color: "#FFC046",
+        fontSize: scale(12),
+        fontWeight: 700,
+        lineheight : verticalScale(14),
+      },
+      inputText: {
+        fontStyle:"Urbanist",
+        textAlign: "center",
+        color: "#FFFFFF",
         fontSize: scale(12),
         fontWeight: 600,
-        color: "#151313",
-        marginRight : 35
+        lineheight : verticalScale(14),
+        
       },
 })

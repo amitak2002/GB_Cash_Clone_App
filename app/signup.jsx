@@ -1,15 +1,15 @@
-import { View, Text, StyleSheet, Image, Alert } from "react-native";
+import { View, Text, StyleSheet, Image, Alert, ImageBackground } from "react-native";
 import React, { useEffect, useState } from "react";
 import AppInput from "../components/AppInput";
 import AppButton from "../components/AppButton";
-import { useRouter } from "expo-router";
+import { useRouter , useLocalSearchParams } from "expo-router";
 import LoaderScreen from "../components/Loader";
 import { signUpApi } from "../utils/AuthApi";
 import axios from "axios";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 export default function Signup() {
-  const [number, setNumber] = useState("+91");
+  const [number, setNumber] = useState("");
   const router = useRouter();
   const [loading, setIsLoading] = useState(true);
  
@@ -18,15 +18,16 @@ export default function Signup() {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 3000)
     return () => clearTimeout(timeOut)
   }, []);
 
   console.log("number is : ", number);
+
   const handleGenerateOtp = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.post(signUpApi, { phone: number }, {
+      const response = await axios.post(signUpApi, { phone: `+91${number}` }, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -39,47 +40,42 @@ export default function Signup() {
       
       setOtp(response?.data?.data?.otp)
       Alert.alert("Success", msg);
+      
       if (response.data.success == true) {
-        router.push({ pathname: "/verifyOtp", params: { number } });
+        router.push({ pathname: "/verifyOtp", params: { number} });
       }
-    } catch (error) {
+    } 
+    catch (error) {
       setIsLoading(false);
       console.log("error at signup: ", error);
       let Err = error?.response?.data?.message
       Alert.alert("Error", Err);
+     
     }
   };
 
+  
   if (loading) {
     return <LoaderScreen />;
   }
 
   return (
-    <View style={style.container}>
-      <View style={style.imageContainer}>
-        <Image style={style.image} source={require("../assets/images/react-logo.png")} />
-      </View>
-
-      <View style={style.details}>
-        <Image source={require("../assets/images/localKonnectLogo.png")}
-          style = {style.detailsImage}
-        />
-        <Text style={style.detailsText}>
-          Pay bills , Recharge , Pay Education Fees and do much with us
-        </Text>
-        
-
-      </View>
-
+    <View style={style.mainContainer}>
+      <ImageBackground source={require("../assets/images/backGround.svg")}
+        style={style.container}
+      >
+    
       <View style={style.bottomContainer}>
+       
         <View style={style.inputContainer}>
-          <AppInput
-            style={style.input}
-            placeholder={"Phone Number"}
-            value={number}
-            onChangeText={(e) => setNumber(e)}
-            keyboardType="numeric"
-          />
+        <Image source={require('../assets/images/India.svg')}/>
+        <AppInput
+          style={style.input}
+          placeholder={"Phone Number"}
+          value={number}
+          onChangeText={(e) => setNumber(e)}
+          keyboardType="numeric"
+        />
         </View>
 
         <Text style={style.inputText}>
@@ -87,7 +83,7 @@ export default function Signup() {
         </Text>
 
         <View style={style.buttonContainer}>
-          <AppButton style={style.button} title={"Generate Otp"} onPress={handleGenerateOtp} />
+          <AppButton style={style.button} title={"CONTINUE"} onPress={handleGenerateOtp} />
         </View>
 
         <View style={style.termContainer}>
@@ -97,95 +93,87 @@ export default function Signup() {
           </Text>
         </View>
       </View>
+      </ImageBackground>
     </View>
   );
 }
 
 const style = StyleSheet.create({
+  mainContainer : {
+    flex:1
+  },
   container: {
-    flex: 1,
-    alignItems:'center',
-    justifyContent:'space-between'
-  },
-  imageContainer: {},
-  image: {
-    width: scale(100),
-    height: verticalScale(100),
-    alignSelf: "center",
-  },
-  details: {
-    flex : 0.7,
-    marginBottom : verticalScale(180),
     width:'100%',
-    alignItems:'center',
-    justifyContent :'center',
-    backgroundColor:'white',
-    padding:moderateScale(40)
+    height:'100%'
   },
-  detailsImage : {
-    width: scale(150),
-    height:verticalScale(100),
-  },
-  detailsText: {
-    marginTop : verticalScale(20),
-    fontSize:moderateScale(12),
-    color:'#c2c0c0'
-  },  
   bottomContainer: {
     position: "absolute",
     bottom: 0,
     width: "100%",
-    paddingBottom: verticalScale(10),
-    backgroundColor: "white",
+    paddingBottom: verticalScale(20),
+    alignItems:'center',
+
+   
   },
   inputContainer: {
-    width: "100%",
-    paddingVertical: verticalScale(10),
-    justifyContent: "center",
-    alignContent: "center",
+    width: "90%",
+    flexDirection:'row',
+    borderBottomWidth:moderateScale(1),
+    borderBottomColor:"#FFFFFF",
+    alignItems: "center",
   },
   input: {
-    width: "90%",
-    borderBottomWidth: moderateScale(0.7),
-    borderBottomColor: "rgb(231, 221, 221)",
+    width: "80%",
     textAlign: "left",
     paddingHorizontal: scale(10),
     padding: moderateScale(10),
     fontSize: moderateScale(18),
-    fontWeight: "500",
+    fontWeight: 400,
     letterSpacing: moderateScale(2),
     marginLeft: scale(25),
+    color:'#ffffff',
+    borderTopWidth:0,borderLeftWidth:0,borderRightWidth:0
   },
   inputText: {
     textAlign: "center",
     marginTop: verticalScale(10),
     padding: moderateScale(10),
-    color: "#1e77e5",
+    color: "#FFFFFF",
     fontSize: moderateScale(12),
-    fontWeight: "bold",
-    lineHeight: moderateScale(25),
+    fontWeight: 400,
+    lineHeight: moderateScale(16),
+    fontStyle:"Urbanist",
   },
   buttonContainer: {
-    marginTop: verticalScale(15),
+    widht:'100%',
+    marginTop: verticalScale(20),
     alignItems: "center",
   },
   button: {
-    width: "85%",
-    fontWeight: "bold",
-    marginBottom: verticalScale(10),
+    width: "100%",
+    fontWeight: 600,
+    paddingHorizontal : scale(70),
+    marginBottom: verticalScale(8),
     backgroundColor: "#110606",
-    color: "#fff",
+    color: "#e7e7e7",
+    fontSize:moderateScale(11)
   },
   termContainer: {
     marginTop: verticalScale(10),
     alignItems: "center",
   },
   termText: {
-    fontSize: moderateScale(15),
-    color: "#0e0d0d",
-    fontWeight: "bold",
+    lineheight : verticalScale(16),
+    fontSize: moderateScale(11),
+    color: "#ffffff",
+    fontWeight: 400,
+    fontStyle:'Urbanist'
   },
   termscolor: {
-    color: "#287eff",
+    color: "#FFFFFF",
+    fontStyle:'Urbanist',
+    fontWeight:700,
+    fontSize:moderateScale(12),
+    lineheight : verticalScale(16),
   },
 });

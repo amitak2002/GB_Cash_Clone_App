@@ -1,4 +1,4 @@
-import { View, Text , StyleSheet , Image , Alert} from 'react-native'
+import { View, Text , StyleSheet , Image , Alert, ImageBackground} from 'react-native'
 import React , {useState , useEffect} from 'react'
 import LoaderScreen from '@/components/Loader'
 import AppInput from '@/components/AppInput'
@@ -52,6 +52,7 @@ export default function AdharVerify() {
       console.log('error comes at adhatotp generate : ',error)
       let Err = (error?.response?.data?.message)
       Alert.alert("Error" , Err)
+      
     }
     
   }
@@ -62,31 +63,29 @@ export default function AdharVerify() {
   return (
     <View style={style.container}>
 
+      <ImageBackground source={require("../assets/images/backGround.svg")} style={style.ImageBackground}>
+
       <View style={style.header}>
-        <Text style={style.headerText}>Aadhaar Verification</Text>
-      </View>
+        
+        </View>
+  
+        
+        <View style={style.footer}>
+          <AppInput 
+            placeholder={'ADHAR VERIFICATION'}
+            style={style.inputAdharNumber}
+            onChangeText={setAdharNum}
+            keyboardType='number'
+            value={adharNum}
+          />
+          <AppButton 
+            title = "CONTINUE"
+            style={style.generateOtp}
+            onPress={handleGenerateOtp}
+          />
+        </View>
 
-      <View style={style.imageContainer}>
-        <Image 
-          source={require("../assets/images/adharVerification.png")}
-          style={style.image}
-        />
-      </View>
-
-      <View style={style.footer}>
-        <AppInput 
-          placeholder={'Enter Aadhaar Number'}
-          style={style.inputAdharNumber}
-          onChangeText={setAdharNum}
-          keyboardType='number'
-          value={adharNum}
-        />
-        <AppButton 
-          title = "Generate Otp"
-          style={style.generateOtp}
-          onPress={handleGenerateOtp}
-        />
-      </View>
+      </ImageBackground>
      
     </View>
   )
@@ -98,6 +97,10 @@ const style = StyleSheet.create({
     alignItems : 'center',
     justifyContent : 'space-around'
   },
+  ImageBackground: {
+    width:'100%',
+    height : '100%',
+  },
   header : {
     flex : moderateScale(1),
     
@@ -107,19 +110,7 @@ const style = StyleSheet.create({
     fontSize : 25,
     fontWeight : 600
   },
-  imageContainer : {
-    flex : moderateScale(1),
-   
-    width:scale(100),
-    width:'100%',
-    alignItems : 'center',
-    
-  },
-  image : {
-    width:scale(150),
-    height:scale(100),
-    marginBottom : 100
-  },
+
   footer : {
     flex : moderateScale(1),
     width : '100%',
@@ -128,19 +119,23 @@ const style = StyleSheet.create({
   },
   inputAdharNumber : {
     width:'80%',
-    paddingHorizontal : scale(60),
+    paddingHorizontal : scale(2),
     paddingVertical : verticalScale(15),
     marginBottom:verticalScale(15),
-    borderBottomWidth: 1,   
-    borderBottomColor: "gray",  
-    fontWeight:500,
-    fontSize:moderateScale(14),
-    alignItems:'center',
-    letterSpacing : 2
+    borderBottomWidth: moderateScale(1),   
+    borderBottomColor: "#F7F7F7",  
+    fontWeight:400,
+    fontSize:moderateScale(18),
+    textAlign: "left",
+    fontStyle:'Urbanist',
+    lineheight : verticalScale(22),
+    color:'#F7F7F7'
 
   },
   generateOtp : {
-    width:'80%'
+    marginTop:verticalScale(14),
+    width:'65%',
+    color:'#1D1E25'
   }
 
 })

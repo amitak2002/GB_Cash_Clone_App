@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function history() {
   return (
-    <View>
+    <View style={{backgroundColor : "red"}}>
       <Text>history</Text>
     </View>
   )

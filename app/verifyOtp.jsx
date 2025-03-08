@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert, Image } from "react-native";
+import { View, Text, StyleSheet, Alert, Image, ImageBackground, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import AppInput from "../components/AppInput";
 import AppButton from "../components/AppButton";
@@ -11,13 +11,17 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 
 export default function VerifyOtp() {
-  const { number } = useLocalSearchParams();
+  const { number } = (useLocalSearchParams())
+  console.log("Number at Verify Page : ",(`+91${number}`))
   const router = useRouter();
   const [loading, setLoading] = useState(true);
  
   const [verify, setVerify] = useState(false);
   const [otp, setOTP] = useState("");
   const [timer, setTimer] = useState(`01:59`);
+  let [time , setTime] = useState(false)
+  
+  const numberPrint  = `+91${number.substring(0,3)} ${number.substring(3,6)} ${number.substring(6)}`
 
   useEffect(() => {
     setTimeout(() => {
@@ -34,7 +38,8 @@ export default function VerifyOtp() {
       if (min === 0 && sec === 0) {
         setTimer(`OTP Expired`);
         clearInterval(timerInterval); // Timer stop karega
-        return;
+        setTime(true)
+        return
       } else {
         if (sec === 0) {
           min -= 1;
@@ -51,33 +56,40 @@ export default function VerifyOtp() {
     return () => clearInterval(timerInterval);
   }, []);
 
+  // handleBack Page to change number
+  const handleBackPage = () => {
+    router.push("/signup")
+  }
+
+  console.log("otp at verify Page : ",(otp))
+  // otp verify
   const handleOtpVerify = async () => {
     try {
       setLoading(true);
-      
-      setOTP("")
 
-      const response = await axios.post(verifyApi, { phone: number, otp: otp }, {
+      const response = await axios.post(verifyApi, { phone: `+91${number}`, otp: otp }, {
         headers: { 'Content-Type': 'application/json' }
       });
-
+      
       setLoading(false);
       console.log('response verify is : ', response);
       let msg = (response?.data?.message);
       Alert.alert("Success", msg);
+      
       setVerify(true)
       if (number || otp) {
-        router.push("/adharVerify");
+        router.push("/panVerify");
+        
       }
     
     } catch (error) {
       setLoading(false);
       let err = (error?.response?.data?.message);
-      setVerify(false);
+      setVerify(false)
       console.log('error comes at verify otp : ', error);
       Alert.alert("Error", err);
+      console.log('error is : ',err)
       
-      setOTP("")
     }
   };
 
@@ -87,60 +99,75 @@ export default function VerifyOtp() {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Image />
-      </View>
-
-      <View style={styles.details}>
-        <Image  
-          source={require("../assets/images/localKonnectLogo.png")}
-          style={styles.detailsImage}
-        />
-        <Text style={styles.detailsText}>
-          Pay bills, Recharge, Pay Education Fees, and do much more with us
-        </Text>
-        
+      <ImageBackground source={require("../assets/images/backGround.svg")} style={styles.imageBackground}>
+      <View style={styles.header}>
       </View>
 
       <View style={styles.bottomContainer}>
-        <Text style={styles.inputText}>OTP Sent to {number}</Text>
-
+        <View style={styles.bottomContainerNumber}>
+          <Text style={styles.inputText}>OTP Sent to {numberPrint}</Text>
+          <TouchableOpacity activeOpacity={0.5} onPress={handleBackPage}>
+            <Text style={styles.changeNumber}>Change Number</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.inputContainer}>
           <AppInput
             style={styles.input}
-            placeholder="Enter OTP"
+            placeholder="OTP CODE"
             value={otp}
             onChangeText={(e) => setOTP(e)}
             keyboardType="numeric"
           />
+        </View>
+
+        <View style={styles.resendOtpContainer}>
+          <Text style={styles.resendText}>RESEND OTP</Text>
           <Text style={styles.timer}>{timer}</Text>
         </View>
         
         <View style={styles.buttonContainer}>
-          <AppButton style={styles.button} title="Verify" onPress={handleOtpVerify} />
+          <AppButton style={styles.button} title="VERIFY" onPress={handleOtpVerify} />
         </View>
       </View>
+
+      </ImageBackground>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: moderateScale(20),
+   flex : 1,
+   alignItems:'center',
+   justifyContent:'end'
+  },
+  imageBackground:{
+    width:'100%',
+    height:'100%'
+  },
+  header : {
+    flex : 0.5
   },
   bottomContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    paddingBottom: verticalScale(20),
+    flex: 0.5,
+    justifyContent: "center",
+  },
+  bottomContainerNumber:{
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+    columnGap:scale(10),
+    paddingVertical : verticalScale(5)
+    
   },
   inputText: {
+    fontStyle:"Urbanist",
     textAlign: "center",
-    marginTop: verticalScale(15),
-    padding: moderateScale(15),
-    color: "#1e77e5",
-    fontSize: scale(15),
-    fontWeight: "bold",
+    color: "#FFFFFF",
+    fontSize: scale(12),
+    fontWeight: 600,
+    lineheight : verticalScale(14),
+    
   },
   inputContainer: {
     width: "100%",
@@ -152,31 +179,28 @@ const styles = StyleSheet.create({
    
   },
   input: {
-    width: "65%",  // ✅ Sahi width set ki
-    borderBottomWidth: 2,
-    borderBottomColor: "rgb(231, 221, 221)",
-    textAlign: "center",
-    fontSize: scale(18),
-    paddingVertical: verticalScale(5),
+    width: "90%",  // ✅ Sahi width set ki
+    borderBottomWidth: moderateScale(1),
+    borderBottomColor: "#FFFFFF",
+    fontStyle:"Urbanist",
+    textAlign: "left",
+    fontSize: scale(14),
+    paddingVertical: verticalScale(8),
     letterSpacing: scale(5),
-    color: "#4d4d4d",
-    fontWeight: "600",
-    marginLeft : scale(50)
-      
-    
+    color: "#FFFFFF",
+    fontWeight: 400,   
+    lineheight : verticalScale(22),
+
   },
-  timer: {
-    fontSize: scale(12),
-    fontWeight: 600,
-    color: "#151313",
-    marginRight : 35
-  },
+  
   buttonContainer: {
-    marginTop: verticalScale(15),
+    width:'100%',
+    marginTop: verticalScale(18),
     alignItems: "center",
   },
   button: {
-    width: "85%",
+
+    width: "60%",
     backgroundColor: "#110606",
     color: "#fff",
   },
@@ -198,4 +222,31 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(12),
     color: "#c2c0c0",
   },  
+  resendOtpContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    marginTop:verticalScale(15)
+  },
+  resendText : {
+    marginLeft : scale(15),
+    fontStyle:"Urbanist",
+    fontWeight:400,
+    fontSize:moderateScale(12),
+    color : "#FFFFFF"
+  },
+  timer : {
+    marginRight:scale(14),
+    fontStyle:"Urbanist",
+    fontWeight:400,
+    fontSize:moderateScale(12),
+    color : "#FFFFFF"
+  },
+  changeNumber : {
+    fontStyle:"Urbanist",
+    textAlign: "center",
+    color: "#FFC046",
+    fontSize: scale(12),
+    fontWeight: 700,
+    lineheight : verticalScale(14),
+  }
 });

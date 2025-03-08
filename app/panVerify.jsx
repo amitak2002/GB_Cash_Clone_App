@@ -7,6 +7,7 @@ import {  scale , verticalScale , moderateScale} from 'react-native-size-matters
 import {useRouter} from 'expo-router'
 import axios from 'axios'
 import {panVerify} from '../utils/AuthApi.js'
+import { ImageBackground } from 'react-native-web'
 
 
 export default function PanVerify() {
@@ -26,42 +27,16 @@ export default function PanVerify() {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setLoader(false)
-    }, 3000);
+    }, 3000)
     return () => clearTimeout(timeOut)
   },[])
 
   console.log('pan Number is : ',panNum)
 
   // to generate otp using adhar Number
-  const handleGenerateOtp = async() => {
+  const handleAdharVerify = async() => {
 
-    try {
-      setLoader(true)
-      const response = await axios.post(panVerify , 
-        {PAN : panNum , name : name} , 
-        {headers : {
-          "Content-Type" : "application/json"
-        }}
-      )  
-      console.log('response of pan verification is : ',response)
-      let msg = (response?.data?.data?.message)
-      console.log("pan verified is : ",msg)
-      Alert.alert("Success" , msg)
-      router.push({
-      pathname: "/end-user"
-      });
-      setLoader(false)
-    } 
-    catch (error) {
-      setLoader(false)
-      let err = (error.response.data.message)
-      console.log('error comes at pan verification : ',error)
-      console.log("erro pan verification is : ",err)
-      Alert.alert("Error" , err)
-    }
-
-    
-    
+    router.push("/adharVerify")
   }
 
   if (loader) {
@@ -70,39 +45,29 @@ export default function PanVerify() {
   return (
     <View style={style.container}>
 
+      <ImageBackground source={require("../assets/images/backGround.svg")}
+        style={style.ImageBackground}
+      >
       <View style={style.header}>
-        <Text style={style.headerText}>Pan Verification</Text>
-      </View>
-
-      <View style={style.imageContainer}>
-        <Image 
-          source={require("../assets/images/Pan.png")}
-          style={style.image}
-        />
-      </View>
+       </View>
 
       <View style={style.footer}>
-      <AppInput 
-          placeholder={'Enter Name '}
-          style={style.inputAdharNumber}
-          onChangeText={setName}
-          keyboardType='text'
-          value={name}
-        />
+    
         <AppInput 
-          placeholder={'Enter Pan Number'}
+          placeholder={'PAN VERIFICATION'}
           style={style.inputAdharNumber}
           onChangeText={setPanNum}
           keyboardType='number'
           value={panNum}
         />
         <AppButton 
-          title = "Verify"
+          title = "CONTINUE"
           style={style.generateOtp}
-          onPress={handleGenerateOtp}
+          onPress={handleAdharVerify}
         />
       </View>
      
+      </ImageBackground>
     </View>
   )
 }
@@ -113,6 +78,10 @@ const style = StyleSheet.create({
     alignItems : 'center',
     justifyContent : 'space-around'
   },
+  ImageBackground: {
+    width:'100%',
+    height : '100%',
+  },
   header : {
     flex : moderateScale(1),
     
@@ -122,19 +91,7 @@ const style = StyleSheet.create({
     fontSize : 25,
     fontWeight : 600
   },
-  imageContainer : {
-    flex : moderateScale(1),
-   
-    width:scale(100),
-    height:verticalScale(50),
-    alignItems : 'center',
-    
-  },
-  image : {
-    width:scale(150),
-    height:scale(100),
-    marginBottom : 100
-  },
+
   footer : {
     flex : moderateScale(1),
     width : '100%',
@@ -143,19 +100,23 @@ const style = StyleSheet.create({
   },
   inputAdharNumber : {
     width:'80%',
-    paddingHorizontal : scale(60),
+    paddingHorizontal : scale(2),
     paddingVertical : verticalScale(15),
     marginBottom:verticalScale(15),
-    borderBottomWidth: 1,   
-    borderBottomColor: "gray",  
-    fontWeight:500,
-    fontSize:moderateScale(13),
-    alignItems:'center',
-    letterSpacing : 1
+    borderBottomWidth: moderateScale(1),   
+    borderBottomColor: "#F7F7F7",  
+    fontWeight:400,
+    fontSize:moderateScale(18),
+    textAlign: "left",
+    fontStyle:'Urbanist',
+    lineheight : verticalScale(22),
+    color:'#F7F7F7'
 
   },
   generateOtp : {
-    width:'80%'
+    marginTop:verticalScale(14),
+    width:'65%',
+    color:'#1D1E25'
   }
 
 })
