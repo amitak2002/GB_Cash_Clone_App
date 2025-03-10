@@ -1,5 +1,5 @@
 import React, { useEffect , useState } from 'react';
-import { View, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, StyleSheet, Image, ImageBackground, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import LoaderScreen from '@/components/Loader';
@@ -36,7 +36,7 @@ const Onboarding = () => {
 
   return (
     <View style={styles.mainContainer}>
-      
+      <StatusBar hidden={false}/>
       <ImageBackground 
       source={require("../../../assets/images/backGround.png")} 
       style={styles.container}

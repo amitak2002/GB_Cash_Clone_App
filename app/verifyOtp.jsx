@@ -77,7 +77,7 @@ export default function VerifyOtp() {
       
       setVerify(true)
       if (number || otp) {
-        router.push("/panVerify");
+        router.push("panVerify");
         
       }
     

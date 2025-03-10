@@ -18,7 +18,7 @@ const AppInput = ({
       <TextInput
         style={[style]}
         placeholder={placeholder}
-        placeholderTextColor="#999"
+        placeholderTextColor="#ffffff"
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
         autoCapitalize={autoCapitalize}

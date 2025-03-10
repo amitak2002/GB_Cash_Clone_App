@@ -36,7 +36,7 @@ export default function PanVerify() {
   // to generate otp using adhar Number
   const handleAdharVerify = async() => {
 
-    router.push("/adharVerify")
+    router.push("adharVerify")
   }
 
   if (loader) {

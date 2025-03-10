@@ -41,7 +41,7 @@ export default function Signup() {
       Alert.alert("Success", msg);
       
       if (response.data.success == true) {
-        router.push({ pathname: "/verifyOtp", params: { number} });
+        router.push({ pathname: "verifyOtp", params: { number} });
       }
     } 
     catch (error) {
