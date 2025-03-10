@@ -38,7 +38,7 @@ const Onboarding = () => {
     <View style={styles.mainContainer}>
       
       <ImageBackground 
-      source={require("../../../assets/images/backGround.svg")} 
+      source={require("../../../assets/images/backGround.png")} 
       style={styles.container}
       
     >

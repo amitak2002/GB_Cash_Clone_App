@@ -16,7 +16,7 @@ export default function Layout() {
 
             <View style={style.headerLeftSection}>
               <Image 
-              source={require("../../assets/images/favicon.png")}
+              source={require("../../assets/images/icon.png")}
               style={style.image}
               />
               <View style={style.headerLeftSecText}>

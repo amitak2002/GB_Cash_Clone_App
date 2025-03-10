@@ -22,7 +22,6 @@ export default function Signup() {
     return () => clearTimeout(timeOut)
   }, []);
 
-  console.log("number is : ", number);
 
   const handleGenerateOtp = async () => {
     try {
@@ -61,14 +60,14 @@ export default function Signup() {
 
   return (
     <View style={style.mainContainer}>
-      <ImageBackground source={require("../assets/images/backGround.svg")}
+      <ImageBackground source={require("../assets/images/backGround.png")}
         style={style.container}
       >
     
       <View style={style.bottomContainer}>
        
         <View style={style.inputContainer}>
-        <Image source={require('../assets/images/India.svg')}/>
+        <Image source={require('../assets/images/India.png')}/>
         <AppInput
           style={style.input}
           placeholder={"Phone Number"}

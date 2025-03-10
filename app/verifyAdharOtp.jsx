@@ -14,12 +14,12 @@ function VerifyAhdarOtp() {
 
   const { ref_id} = useLocalSearchParams()
 
-  console.log("ref id is2 : ",ref_id)
+  
   const router = useRouter()
   const [loader , setLoader] = useState(true)
   const [otp , setOtp] = useState("")
   const [timer, setTimer] = useState(`01:59`);
-  console.log('otp is : ',otp)
+  
    // count down
     useEffect(() => {
       let min = 1;
@@ -79,9 +79,6 @@ function VerifyAhdarOtp() {
       
       console.log("errro comes during otp verification : ",error)
       Alert.alert("Error" , errors )
-      console.log('error is : ',errors)
-      
-      
     }
   }
   const handleBackAdhar = () => {
@@ -94,7 +91,7 @@ function VerifyAhdarOtp() {
 
   return (
     <View style={style.container}>
-      <ImageBackground source={require("../assets/images/backGround.svg")}
+      <ImageBackground source={require("../assets/images/backGround.png")}
         style={style.ImageContainer}
       >
       <View style={style.header}>

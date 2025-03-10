@@ -31,7 +31,7 @@ export default function PanVerify() {
     return () => clearTimeout(timeOut)
   },[])
 
-  console.log('pan Number is : ',panNum)
+  
 
   // to generate otp using adhar Number
   const handleAdharVerify = async() => {
@@ -45,7 +45,7 @@ export default function PanVerify() {
   return (
     <View style={style.container}>
 
-      <ImageBackground source={require("../assets/images/backGround.svg")}
+      <ImageBackground source={require("../assets/images/backGround.png")}
         style={style.ImageBackground}
       >
       <View style={style.header}>

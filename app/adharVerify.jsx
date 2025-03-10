@@ -22,8 +22,7 @@ export default function AdharVerify() {
   const router = useRouter()
   const [loader , setLoader] = useState(true)
   const [adharNum , setAdharNum] = useState("")
-  console.log('adharnumber is : ',adharNum)
-
+  
   // to generate otp using adhar Number
   const handleGenerateOtp = async() => {
 
@@ -41,7 +40,7 @@ export default function AdharVerify() {
       
       let msg = (response?.data?.message)
       Alert.alert("Sucess" , msg)
-      console.log('reference id is1 : ',referenceid)
+     
       router.push({
         pathname: "/verifyAdharOtp",
         params: { ref_id : referenceid}
@@ -63,7 +62,7 @@ export default function AdharVerify() {
   return (
     <View style={style.container}>
 
-      <ImageBackground source={require("../assets/images/backGround.svg")} style={style.ImageBackground}>
+      <ImageBackground source={require("../assets/images/backGround.png")} style={style.ImageBackground}>
 
       <View style={style.header}>
         

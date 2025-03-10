@@ -12,7 +12,6 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 export default function VerifyOtp() {
   const { number } = (useLocalSearchParams())
-  console.log("Number at Verify Page : ",(`+91${number}`))
   const router = useRouter();
   const [loading, setLoading] = useState(true);
  
@@ -61,7 +60,7 @@ export default function VerifyOtp() {
     router.push("/signup")
   }
 
-  console.log("otp at verify Page : ",(otp))
+  
   // otp verify
   const handleOtpVerify = async () => {
     try {
@@ -86,9 +85,9 @@ export default function VerifyOtp() {
       setLoading(false);
       let err = (error?.response?.data?.message);
       setVerify(false)
-      console.log('error comes at verify otp : ', error);
+      
       Alert.alert("Error", err);
-      console.log('error is : ',err)
+  
       
     }
   };
@@ -99,7 +98,7 @@ export default function VerifyOtp() {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require("../assets/images/backGround.svg")} style={styles.imageBackground}>
+      <ImageBackground source={require("../assets/images/backGround.png")} style={styles.imageBackground}>
       <View style={styles.header}>
       </View>
 
