@@ -14,7 +14,7 @@ export default function OptionComponent({onPress}) {
     electricity: require("../assets/images/electricity.png"),
     water: require("../assets/images/water.png"),
     educationFee: require("../assets/images/educationFee.png"),
-    mobile: require("../assets/images/phone.png"),
+    phone: require("../assets/images/phone.png"),
   };
 
   return (
@@ -22,7 +22,7 @@ export default function OptionComponent({onPress}) {
       <View style={style.Content}>
         {fonts.map((font, index) => (
           <View key={index} style={style.Div}>
-            <TouchableOpacity onPress={onPress}>
+            <TouchableOpacity onPress={() => onPress(font)}>
             <Image source={fontImages[font]} style={style.DivImage} />
             </TouchableOpacity >
             <Text style={style.text}>{font.charAt(0).toUpperCase() + font.substring(1)}</Text>
@@ -35,7 +35,8 @@ export default function OptionComponent({onPress}) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
+    width : '100%',
+    height:'100%',
     marginTop:verticalScale(10),
     paddingTop : verticalScale(5),
     backgroundColor:"#ffffff"
@@ -45,21 +46,22 @@ const style = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    columnGap:scale(10),
-    rowGap:verticalScale(5)
+    columnGap:scale(8),
+    rowGap:verticalScale(5),
+    
   },
   Div: {
-    width: scale(56),
+    width : "20%",
     height: verticalScale(80),
     alignItems: "center",
     margin: scale(5),
-    
+   
   },
   DivImage: {
     width: scale(56),
     height: verticalScale(52),
     backgroundColor:"#F7F7F7",
-    borderRadius : '55%'
+    borderRadius : moderateScale(50)
   },
   text: {
     marginTop:verticalScale(7),

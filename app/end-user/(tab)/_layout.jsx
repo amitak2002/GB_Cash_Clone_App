@@ -1,8 +1,8 @@
-import { View, Text , StyleSheet } from 'react-native'
+import {  StyleSheet } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import { Ionicons } from "@expo/vector-icons";
-import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+
 
 export default function _layout() {
   return (  
@@ -11,7 +11,7 @@ export default function _layout() {
         tabBarStyle: style.tabContainer,
         tabBarActiveTintColor: '#1D1E25',
         tabBarInactiveTintColor: '#0048A6',
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
         tabBarLabelStyle: { 
             fontWeight: "600", 
             textDecorationLine: "underline",
@@ -23,7 +23,7 @@ export default function _layout() {
           if (route.name === 'index') {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === 'card') {
-            iconName = focused ? "card" : "card-outline";
+            iconName = focused ? "document-text" : "document-text-outline";
           } else if (route.name === 'history') {
             iconName = focused ? "time" : "time-outline";
           } else if (route.name === 'profile') {
@@ -45,10 +45,11 @@ export default function _layout() {
 
 const style = StyleSheet.create({
     tabContainer : {
-        backgroundColor: '#ffffff',
-        color: '#1D1E25',
-        borderTopLeftRadius: moderateScale(15),
-        borderTopRightRadius: moderateScale(15),
-       
+      
+      backgroundColor: '#ffffff',
+      color: '#1D1E25',
+      flexDirection:'row',
+      alignItems:'center'
+        
     }
 })

@@ -1,9 +1,7 @@
 import React from "react";
-import { View, TextInput, Text, StyleSheet } from "react-native";
-import { scale, verticalScale } from "react-native-size-matters";
+import { TextInput } from 'react-native-paper';
 
 const AppInput = ({
-  
   placeholder,
   keyboardType = "default",
   secureTextEntry = false,
@@ -14,23 +12,36 @@ const AppInput = ({
   style
 }) => {
   return (
-    
-      <TextInput
-        style={[style]}
-        placeholder={placeholder}
-        placeholderTextColor="#ffffff"
-        keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
-        autoCapitalize={autoCapitalize}
-        autoCorrect={false}
-        value={value}
-        onChangeText={onChangeText}
-      />
-      
+    <TextInput
+      mode='flat'
+      style={[
+        style,
+        {
+          backgroundColor: 'transparent', 
+          color: '#ffffff',     
+        }
+      ]}
+      placeholder={placeholder}
+      keyboardType={keyboardType}
+      secureTextEntry={secureTextEntry}
+      autoCapitalize={autoCapitalize}
+      autoCorrect={false}
+      value={value}
+      onChangeText={onChangeText}
+      placeholderTextColor="#ffffff"   
+      cursorColor="#ffffff"           
+      theme={{
+        colors: {
+          primary: '#ffffff',          
+          background: 'transparent', 
+          text: '#ffffff',            
+          placeholder: '#ffffff',      
+          onSurface: '#ffffff',        
+        }
+      }}
+      activeUnderlineColor="transparent" 
+    />
   );
 };
-
-  
-
 
 export default AppInput;

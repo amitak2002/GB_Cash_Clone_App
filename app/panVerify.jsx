@@ -1,122 +1,145 @@
-import { View, Text , StyleSheet , Image , Alert} from 'react-native'
-import React , {useState , useEffect} from 'react'
-import LoaderScreen from '@/components/Loader'
-import AppInput from '@/components/AppInput'
-import AppButton from '@/components/AppButton'
-import {  scale , verticalScale , moderateScale} from 'react-native-size-matters';
-import {useRouter} from 'expo-router'
-import axios from 'axios'
-import {panVerify} from '../utils/AuthApi.js'
-import { ImageBackground } from 'react-native-web'
+import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import LoaderScreen from '@/components/Loader';
+import AppInput from '@/components/AppInput';
+import AppButton from '@/components/AppButton';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { useRouter } from 'expo-router';
+import axios from 'axios';
+import { panVerify } from '../utils/AuthApi.js';
 
+import { userPanSchema } from '../validationYUP/authValidation.js';
+import { Formik } from 'formik';
+import Toast from 'react-native-toast-message';
 
 export default function PanVerify() {
+  const router = useRouter();
+  const [loader, setLoader] = useState(true);
+  const [panNum, setPanNum] = useState("");
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      setLoader(false)
-    } , 2000)
-    return () => clearTimeout(timeOut)
-  },[])
+      setLoader(false);
+    }, 3000);
+    return () => clearTimeout(timeOut);
+  }, []);
 
-  const router = useRouter()
-  const [loader , setLoader] = useState(true)
-  const [panNum , setPanNum] = useState("")
-  const [name , setName] = useState("")
-  
-  useEffect(() => {
-    const timeOut = setTimeout(() => {
-      setLoader(false)
-    }, 3000)
-    return () => clearTimeout(timeOut)
-  },[])
+  const handlePanVerify = (panNumberVerify) => {
+    if (panNumberVerify !== "ABCPV1234D") {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid PAN Number',
+        visibilityTime: 2000,
+        position: 'top',
+      });
+      return;
+    }
 
-  
-
-  // to generate otp using adhar Number
-  const handleAdharVerify = async() => {
-
-    router.push("adharVerify")
-  }
+    router.push("/adharVerify");
+    Toast.show({
+      type: 'success',
+      text1: 'PAN Verified Successfully',
+      visibilityTime: 2000,
+      position: 'top',
+    });
+  };
 
   if (loader) {
-    return <LoaderScreen />
+    return <LoaderScreen />;
   }
+
   return (
-    <View style={style.container}>
+    <Formik
+      initialValues={{ panNumber: "" }}
+      validationSchema={userPanSchema}
+      onSubmit={(values) => {
+        console.log('submitted values is : ', values);
+        setPanNum(values.panNumber);
+        handlePanVerify(values.panNumber);
+      }}
+    >
+      {({ values, errors, handleChange, handleSubmit, touched }) => (
+        <View style={style.container}>
+          <ImageBackground
+            source={require("../assets/images/backGround.png")}
+            style={style.ImageBackground}
+          >
+            <View style={style.header} />
 
-      <ImageBackground source={require("../assets/images/backGround.png")}
-        style={style.ImageBackground}
-      >
-      <View style={style.header}>
-       </View>
+            <View style={style.footer}>
+              <View style={style.input}>
+                <AppInput
+                  placeholder="PAN VERIFICATION"
+                  style={style.inputAdharNumber}
+                  onChangeText={handleChange('panNumber')}
+                  keyboardType="default"
+                  value={values.panNumber}
+                />
+              </View>
 
-      <View style={style.footer}>
-    
-        <AppInput 
-          placeholder={'PAN VERIFICATION'}
-          style={style.inputAdharNumber}
-          onChangeText={setPanNum}
-          keyboardType='number'
-          value={panNum}
-        />
-        <AppButton 
-          title = "CONTINUE"
-          style={style.generateOtp}
-          onPress={handleAdharVerify}
-        />
-      </View>
-     
-      </ImageBackground>
-    </View>
-  )
+              {errors.panNumber && touched.panNumber && (
+                <Text
+                  style={{
+                    color: '#FFD700',
+                    marginTop: verticalScale(5),
+                    textAlign: 'center',
+                  }}
+                >
+                  {errors.panNumber}
+                </Text>
+              )}
+
+              <AppButton
+                title="CONTINUE"
+                style={style.generateOtp}
+                onPress={handleSubmit}
+              />
+            </View>
+          </ImageBackground>
+        </View>
+      )}
+    </Formik>
+  );
 }
 
 const style = StyleSheet.create({
-  container : {
-    flex : moderateScale(1),
-    alignItems : 'center',
-    justifyContent : 'space-around'
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
   ImageBackground: {
-    width:'100%',
-    height : '100%',
+    width: '100%',
+    height: '100%',
   },
-  header : {
-    flex : moderateScale(1),
-    
+  header: {
+    flex: 1,
   },
-  headerText : {
-    marginTop : verticalScale(45),
-    fontSize : 25,
-    fontWeight : 600
+  footer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
-  footer : {
-    flex : moderateScale(1),
-    width : '100%',
-    alignItems : 'center',
-    justifyContent:'center'
+  input: {
+    width: '90%',
+    borderBottomWidth: moderateScale(1),
+    borderBottomColor: '#ffffff',
   },
-  inputAdharNumber : {
-    width:'80%',
-    paddingHorizontal : scale(2),
-    paddingVertical : verticalScale(15),
-    marginBottom:verticalScale(15),
-    borderBottomWidth: moderateScale(1),   
-    borderBottomColor: "#F7F7F7",  
-    fontWeight:400,
-    fontSize:moderateScale(18),
+  inputAdharNumber: {
+    width: '100%',
+    paddingHorizontal: scale(2),
+    paddingVertical: verticalScale(6),  // ✅ Fixed
+    fontWeight: "400",                  // ✅ Fixed
+    fontSize: moderateScale(18),
     textAlign: "left",
-    fontStyle:'Urbanist',
-    lineheight : verticalScale(22),
-    color:'#F7F7F7'
-
+    fontStyle: 'Urbanist',
+    lineHeight: verticalScale(22),      // ✅ Fixed
+    color: '#F7F7F7',
   },
-  generateOtp : {
-    marginTop:verticalScale(14),
-    width:'65%',
-    color:'#1D1E25'
-  }
-
-})
+  generateOtp: {
+    marginTop: verticalScale(18),
+    width: '65%',
+    color: '#1D1E25',
+  },
+});

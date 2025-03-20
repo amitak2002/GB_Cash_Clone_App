@@ -1,25 +1,29 @@
 import AppButton from '@/components/AppButton'
 import AppInput from '@/components/AppInput'
 import React, { useEffect , useState } from 'react'
-import { View ,  Text , StyleSheet ,Alert, ImageBackground, TouchableOpacity} from 'react-native'
+import { View ,  Text , StyleSheet , ImageBackground, TouchableOpacity} from 'react-native'
 import { useLocalSearchParams , useRouter } from 'expo-router'
 import { moderateScale , verticalScale } from 'react-native-size-matters'
 import LoaderScreen from '@/components/Loader'
 import axios from 'axios'
-import {adharOtpVerify} from '../utils/AuthApi.js'
+import { authApiUtils } from "../utils/AuthApi.js";
+import {END_POINT} from '../utils/endPoint.js'
 import { scale } from 'react-native-size-matters'
- 
+import { Formik } from 'formik'
+import { userAdharOtpSchema } from '@/validationYUP/authValidation.js'
+import Toast from 'react-native-toast-message';
+
 
 function VerifyAhdarOtp() {
 
   const { ref_id} = useLocalSearchParams()
 
-  
   const router = useRouter()
   const [loader , setLoader] = useState(true)
   const [otp , setOtp] = useState("")
   const [timer, setTimer] = useState(`01:59`);
-  
+  const number = '+918287485227'
+  const numberPrint  = `${number.substring(0,3)} ${number.substring(3,6)} ${number.substring(6,9)} ${number.substring(9)}`
    // count down
     useEffect(() => {
       let min = 1;
@@ -46,7 +50,6 @@ function VerifyAhdarOtp() {
   
       return () => clearInterval(timerInterval);
     }, []);
-  
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -56,12 +59,12 @@ function VerifyAhdarOtp() {
   },[])
 
   // to check or verify otp for adhar
-  const handleAdharOtpVerify = async () => {
+  const handleAdharOtpVerify = async (adharOtpVerify) => {
 
     try {
       setLoader(true)
-      const response = await axios.post(adharOtpVerify , 
-        {aadhaarOtp : otp , ref_id : ref_id} ,
+      const response = await axios.post(`${authApiUtils}${END_POINT.ADHAR_VERIFICATION}` , 
+        {aadhaarOtp : adharOtpVerify , ref_id : ref_id} ,
         {headers : {
           "Content-Type" : "application/json"
         }}
@@ -69,7 +72,13 @@ function VerifyAhdarOtp() {
       setLoader(false)
       console.log("response after adhar otp verify : ",response)
       let msg = (response?.data?.message)
-      Alert.alert("Success" , msg)
+      Toast.show({
+        type: 'success',
+        text1: msg,
+        
+        visibilityTime: 2000,
+        position: 'top',
+      });
       
       router.push("/end-user")
     } 
@@ -78,7 +87,14 @@ function VerifyAhdarOtp() {
       let errors = error.response.data.message
       
       console.log("errro comes during otp verification : ",error)
-      Alert.alert("Error" , errors )
+     
+      Toast.show({
+        type: 'error',
+        text1: errors,
+        
+        visibilityTime: 2000,
+        position: 'top',
+      });
     }
   }
   const handleBackAdhar = () => {
@@ -90,42 +106,59 @@ function VerifyAhdarOtp() {
   }
 
   return (
-    <View style={style.container}>
-      <ImageBackground source={require("../assets/images/backGround.png")}
-        style={style.ImageContainer}
-      >
-      <View style={style.header}>
-        
-      </View>
+    <Formik
+      initialValues={{adharOtp : ""}}
+      validationSchema={userAdharOtpSchema}
+      onSubmit={ (values) => {
+        console.log("submitted adhar otp is : ",values)
+        setOtp(values.adharOtp)
+         handleAdharOtpVerify(values.adharOtp)
+      }}
+    >
+      {({values , touched , errors , handleSubmit , handleChange}) => (
+        <View style={style.container}>
+        <ImageBackground source={require("../assets/images/backGround.png")}
+          style={style.ImageContainer}
+        >
+        <View style={style.header}>
 
-      <View style={style.footer}>
-
-        <View style={style.changeNumberContainer}>
-          <Text style={style.inputText}>OTP SENT TO {}</Text>
-          <TouchableOpacity onPress={handleBackAdhar}>
-            <Text style={style.changeNumber}>Change Number</Text>
-          </TouchableOpacity>
         </View>
+  
+        <View style={style.footer}>
+  
+          <View style={style.changeNumberContainer}>
+            <Text style={style.inputText}>OTP SENT TO {numberPrint}</Text>
+            <TouchableOpacity onPress={handleBackAdhar}>
+              <Text style={style.changeNumber}>Change Number</Text>
+            </TouchableOpacity>
+          </View>
+  
+          <AppInput 
+          style={style.input}
+            placeholder={"OTP CODE"}
+            onChangeText={handleChange('adharOtp')}
+            value={values.adharOtp}
+          />
 
-        <AppInput 
-        style={style.input}
-          placeholder={"OTP CODE"}
-          onChangeText={(e) => setOtp(e)}
-        />
-        <View style={style.resendOtpContainer}>
-          <Text style={style.resendText}>RESEND OTP</Text>
-          <Text style={style.timer}>{timer}</Text>
+          {errors.adharOtp && touched.adharOtp && (
+            <Text style={{color : '#FFD700' , marginTop:verticalScale(4) , textAlign:'center' , fontStyle:"Urbanist" , fontSize:moderateScale(14)}}>{errors.adharOtp}</Text>
+          )}
+          <View style={style.resendOtpContainer}>
+            <Text style={style.resendText}>RESEND OTP</Text>
+            <Text style={style.timer}>{timer}</Text>
+          </View>
+  
+          <AppButton
+          style={style.button}
+            title={"VERIFY"}
+            onPress={handleSubmit}
+          />
         </View>
-
-        <AppButton
-        style={style.button}
-          title={"VERIFY"}
-          onPress={handleAdharOtpVerify}
-        />
+  
+        </ImageBackground>
       </View>
-
-      </ImageBackground>
-    </View>
+      )}
+    </Formik>
   )
 }
 
@@ -150,8 +183,8 @@ const style = StyleSheet.create({
     },
     input : {
       borderBottomWidth:0.8,
-      width : '80%',
-      paddingVertical : verticalScale(15),
+      width : '92%',
+      paddingVertical : verticalScale(4),
       marginBottom:verticalScale(8),
       color:"#F7F7F7",
       borderBottomColor:'#afa7a7',
@@ -164,6 +197,7 @@ const style = StyleSheet.create({
       paddingHorizontal : scale(3)
     },
     resendOtpContainer:{
+      // width : '90%',
       flexDirection:'row',
       justifyContent:'space-between',
       marginTop:verticalScale(15),

@@ -1,4 +1,4 @@
-import { View, Text , StyleSheet , Image , Alert, ImageBackground} from 'react-native'
+import { View, Text , StyleSheet , ImageBackground} from 'react-native'
 import React , {useState , useEffect} from 'react'
 import LoaderScreen from '@/components/Loader'
 import AppInput from '@/components/AppInput'
@@ -6,8 +6,11 @@ import AppButton from '@/components/AppButton'
 import {  scale , verticalScale , moderateScale} from 'react-native-size-matters';
 import {useRouter} from 'expo-router'
 import axios from "axios"
-import {adharOtpGenerate} from "../utils/AuthApi.js"
-
+import { authApiUtils } from "../utils/AuthApi.js";
+import {END_POINT} from '../utils/endPoint.js'
+import { Formik } from 'formik'
+import { userAdharSchema } from '@/validationYUP/authValidation.js'
+import Toast from 'react-native-toast-message';
 
 
 export default function AdharVerify() {
@@ -24,12 +27,12 @@ export default function AdharVerify() {
   const [adharNum , setAdharNum] = useState("")
   
   // to generate otp using adhar Number
-  const handleGenerateOtp = async() => {
+  const handleGenerateOtp = async(adharNumberVerify) => {
 
     try {
       setLoader(true)
-      const response = await axios.post(adharOtpGenerate , 
-        {aadhaarNumber : adharNum} , 
+      const response = await axios.post(`${authApiUtils}${END_POINT.ADHAR_OTP_GENERATE}` , 
+        {aadhaarNumber : adharNumberVerify} , 
         {headers : {
           "Content-Type" : "application/json"
         }}
@@ -39,8 +42,16 @@ export default function AdharVerify() {
       const referenceid = response?.data?.reference_id
       
       let msg = (response?.data?.message)
-      Alert.alert("Sucess" , msg)
      
+      Toast.show({
+        type: 'success',
+        text1: msg,
+        
+        visibilityTime: 2000,
+        position: 'top',
+      });
+      
+      console.log('reference id is : ',referenceid)
       router.push({
         pathname: "/verifyAdharOtp",
         params: { ref_id : referenceid}
@@ -50,7 +61,14 @@ export default function AdharVerify() {
       setLoader(false)
       console.log('error comes at adhatotp generate : ',error)
       let Err = (error?.response?.data?.message)
-      Alert.alert("Error" , Err)
+     
+      Toast.show({
+        type: 'error',
+        text1: Err,
+        
+        visibilityTime: 2000,
+        position: 'top',
+      });
       
     }
     
@@ -60,33 +78,50 @@ export default function AdharVerify() {
     return <LoaderScreen />
   }
   return (
-    <View style={style.container}>
+    <Formik
+      initialValues={{adharNumber : ""}}
+      validationSchema={userAdharSchema}
+      onSubmit={ (values) => {
+        console.log("submitted adhar number is : ",values)
+        setAdharNum(values.adharNumber)
+         handleGenerateOtp(values.adharNumber)
+      }}
+    >
+      {({values , touched , errors , handleChange , handleSubmit}) => (
+        <View style={style.container}>
 
-      <ImageBackground source={require("../assets/images/backGround.png")} style={style.ImageBackground}>
-
-      <View style={style.header}>
-        
-        </View>
+        <ImageBackground source={require("../assets/images/backGround.png")} style={style.ImageBackground}>
   
-        
-        <View style={style.footer}>
-          <AppInput 
-            placeholder={'ADHAR VERIFICATION'}
-            style={style.inputAdharNumber}
-            onChangeText={setAdharNum}
-            keyboardType='number'
-            value={adharNum}
-          />
-          <AppButton 
-            title = "CONTINUE"
-            style={style.generateOtp}
-            onPress={handleGenerateOtp}
-          />
-        </View>
+        <View style={style.header}>
+          
+          </View>
+    
+          
+          <View style={style.footer}>
+            <View style={style.input}>
+              <AppInput 
+                placeholder={'AADHAAR VERIFICATION'}
+                style={style.inputAdharNumber}
+                onChangeText={handleChange("adharNumber")}
+                keyboardType='number'
+                value={values.adharNumber}
+              />
+            </View>
 
-      </ImageBackground>
-     
-    </View>
+            {errors.adharNumber && touched.adharNumber && (
+             <Text style={{color : "#FFD700" , marginTop : verticalScale(5) , textAlign :     'center', fontStyle:"Urbanist" , fontSize:moderateScale(14)}}>{errors.adharNumber}</Text>
+            )}
+            <AppButton 
+              title = "CONTINUE"
+              style={style.generateOtp}
+              onPress={handleSubmit}
+            />
+          </View>
+        </ImageBackground>
+       
+      </View>
+      )}
+    </Formik>
   )
 }
 
@@ -116,19 +151,22 @@ const style = StyleSheet.create({
     alignItems : 'center',
     justifyContent:'center'
   },
-  inputAdharNumber : {
-    width:'80%',
-    paddingHorizontal : scale(2),
-    paddingVertical : verticalScale(15),
-    marginBottom:verticalScale(15),
+  input : {
+    width : '90%',
     borderBottomWidth: moderateScale(1),   
     borderBottomColor: "#F7F7F7",  
+    
+  },
+  inputAdharNumber : {
+    width:'100%',
+    paddingHorizontal : scale(2),
     fontWeight:400,
     fontSize:moderateScale(18),
     textAlign: "left",
     fontStyle:'Urbanist',
     lineheight : verticalScale(22),
-    color:'#F7F7F7'
+    color:'#F7F7F7',
+    paddingVertical : verticalScale(4)
 
   },
   generateOtp : {
