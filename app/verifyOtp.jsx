@@ -199,26 +199,26 @@ const styles = StyleSheet.create({
     
   },
   inputContainer: {
-    width: "94%",
-    alignItems:'center',
-    justifyContent:'center',
-    
+    width: "90%",
+    flexDirection : "row",
+    alignItems : "flex-start",
+    justifyContent:"flex-start",
     borderBottomWidth:moderateScale(1),
-    marginLeft : scale(6),
-    borderBottomColor:'#ffffff'
-
-   
+    borderBottomColor:'#ffffff',
+    marginLeft : scale(15)
   },
   input: {
-    width: "95%",  // ✅ Sahi width set ki
+    width: "100%",  // ✅ Sahi width set ki
     fontStyle:"Urbanist",
     fontSize: scale(14),
-    paddingVertical: verticalScale(4),
+    paddingVertical: verticalScale(2),
     color: "#FFFFFF",
-    fontWeight: 400,   
+    fontWeight: "400",   
     lineheight : verticalScale(22),
-    textAlign:'left',
-    letterSpacing : scale(6)
+    flexDirection:"row",
+    alignItems : "flex-start",
+    justifyContent : "flex-start",
+    letterSpacing : scale(6),
   },
   
   buttonContainer: {

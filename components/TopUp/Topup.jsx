@@ -31,16 +31,20 @@ export default function Topup({onPress}) {
                 services.map((service , index) => (
                     <View key={index} style={style.serviceItem}>
 
+                        <TouchableOpacity>
                         <View style={style.imageContainer}>
                             <Image source={require("../../assets/images/Bank.png")} 
                                 style={style.imageBank}
                             />
                         </View>
+                        </TouchableOpacity>
 
+                        <TouchableOpacity>
                         <View style={style.midContainer}>
                             <Text style={style.midcontainerText1}>{service.title}</Text>
                             <Text style={style.midcontainerText2}>{service.description}</Text>
                         </View>
+                        </TouchableOpacity>
 
                         <View style={style.nextContainer}>
                             <TouchableOpacity>

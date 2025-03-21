@@ -2,6 +2,8 @@ import { View, Text , StyleSheet, TouchableOpacity , Image , TextInput} from 're
 import React ,{useState , useEffect} from 'react'
 import { scale , verticalScale , moderateScale } from 'react-native-size-matters'
 import { Ionicons } from '@expo/vector-icons'
+import { Formik } from 'formik'
+import { userMobileSchema } from '@/validationYUP/authValidation'
 
 
 export default function Mobile({onPress}) {
@@ -15,30 +17,51 @@ export default function Mobile({onPress}) {
     }
   } , [number])
 
-  return (
-    <View style={style.container}>
-        <View style={style.mobileRecahrgeContainer}>
-            <Text style={style.mobileRecahrge}>Mobile Recharge</Text>
-           <TouchableOpacity onPress={onPress} activeOpacity={0.5} style={{marginRight : scale(2)}}>
-           <Ionicons name="arrow-back" color="black" size={28} />
-           </TouchableOpacity>
-        </View>
+  const initialValues = {
+    phoneNumber : ""
+  }
 
-        <View style={style.inputContainer}>
-          <Image source={require("../../assets/images/India.png")} style={style.image}/>
-          <Text style={style.inputText}>{`+91`}</Text>
-          <TextInput style={style.input} 
-          value={number}
-          onChangeText={setNumber}
-          defaultValue=''
-          keyboardType='default'
-          
-          />
-          <TouchableOpacity>
-          <Image source={require("../../assets/images/simcard.png")} style={style.simImage}/>
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={userMobileSchema}
+      onSubmit={(values) => {
+        console.log("values is : ",values)
+        setNumber(values.phoneNumber)
+        console.log("number is : ",number)
+      }}
+
+    >
+    {({values , handleChange , handleSubmit , errors , touched}) => (
+
+      <View style={style.container}>
+      <View style={style.mobileRecahrgeContainer}>
+          <Text style={style.mobileRecahrge}>Mobile Recharge</Text>
+          <TouchableOpacity onPress={onPress} activeOpacity={0.5} style={{marginRight : scale(2)}}>
+          <Ionicons name="arrow-back" color="black" size={28} />
           </TouchableOpacity>
-        </View>
-    </View>
+      </View>
+
+      <View style={style.inputContainer}>
+        <Image source={require("../../assets/images/India.png")} style={style.image}/>
+        <Text style={style.inputText}>{`+91`}</Text>
+        <TextInput style={style.input} 
+        value={values.phoneNumber}
+        onChangeText={handleChange('phoneNumber')}
+        defaultValue=''
+        keyboardType='default'
+        
+        />
+          <TouchableOpacity onPress={handleSubmit}>
+            <Image source={require("../../assets/images/simcard.png")} style={style.simImage}/>
+          </TouchableOpacity>
+      </View>
+        {errors.phoneNumber && touched.phoneNumber && (
+          <Text style={{textAlign : "center" , marginTop : verticalScale(4) , color : "red" , fontSize:moderateScale(12) , fontWeight : "700" , fontStyle : "Urbanist"}}>{errors.phoneNumber}</Text>
+        )}
+      </View>
+    )}
+    </Formik>
   )
 }
 
