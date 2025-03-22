@@ -84,7 +84,7 @@ export default function Layout() {
 
                         <View style={style.rightSection}>
                             <TouchableOpacity
-                                onPress={() => setBellState((prev) => !prev)}
+                                
                             >
                                 <Ionicons
                                     name="notifications-outline"
@@ -153,7 +153,7 @@ export default function Layout() {
             </View>
 
             <View style={style.content}>
-                <Stack screenOptions={{ headerShown: false }} />
+            <Stack screenOptions={{ headerShown: false }} />
                 <View style={style.bottomSlider}>
                     <TouchableOpacity
                         onPress={() => setAddState((prev) => !prev)}
@@ -161,6 +161,7 @@ export default function Layout() {
                         <View style={style.bottomStrip}></View>
                     </TouchableOpacity>
                 </View>
+
             </View>
 
             {/* make a model when click on valulet icon */}
