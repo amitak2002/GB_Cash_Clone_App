@@ -1,19 +1,6 @@
-import {
-    View,
-    Text,
-    Image,
-    StyleSheet,
-    Modal,
-    TouchableOpacity,
-    ImageBackground,
-} from "react-native";
+import {View,Text,Image, StyleSheet, Modal, TouchableOpacity,ImageBackground } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import {
-    verticalScale,
-    scale,
-    moderateScale,
-    moderateVerticalScale,
-} from "react-native-size-matters";
+import { verticalScale,scale,  moderateScale, moderateVerticalScale,} from "react-native-size-matters";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import OptionContainer from "../../components/OptionComponent.jsx";
@@ -35,13 +22,13 @@ export default function Layout() {
         switch (state) {
             case "phone":
                 return <Mobile onPress={() => setState("")} />;
-            case "electricity":
+            case "electricity":    
                 return <Electricity onPress={() => setState("")} />;
             default:
                 setState("");
         }
     };
-
+     
     const handleModalState = (state) => {
         if (state === "add") {
             setAddState((prev) => !prev);
@@ -127,7 +114,7 @@ export default function Layout() {
                                         style={style.fontDivImage}
                                         key={index}
                                     />
-                                </TouchableOpacity>
+                                </TouchableOpacity> 
                             </View>
                         ))}
                     </View>
