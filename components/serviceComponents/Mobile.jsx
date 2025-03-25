@@ -11,19 +11,25 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Ionicons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { userMobileSchema } from "@/validationYUP/authValidation";
+import AppInput from "../../components/AppInput.jsx";
+import { useRouter } from "expo-router";
 
-export default function Mobile({ onPress }) {
+
+export default function Mobile({onPress}) {
+
+
     const [number, setNumber] = useState("");
     console.log("phone Number is : ", number);
+    const router = useRouter()
 
     useEffect(() => {
         if (number.length === 3 || number.length === 7) {
-            setNumber((prev) => (prev += " "));
+            setNumber((number) => number += " ");
         }
     }, [number]);
 
     const initialValues = {
-        phoneNumber: "",
+        phoneNumber: number
     };
 
     return (
@@ -61,7 +67,7 @@ export default function Mobile({ onPress }) {
                             style={style.image}
                         />
                         <Text style={style.inputText}>{`+91`}</Text>
-                        <TextInput
+                        <AppInput
                             style={style.input}
                             value={values.phoneNumber}
                             onChangeText={handleChange("phoneNumber")}
@@ -142,14 +148,15 @@ const style = StyleSheet.create({
         fontSize: moderateScale(14),
     },
     input: {
-        marginLeft: scale(4),
-        width: scale(85),
-        height: verticalScale(37),
+        width: scale(100),
+        height: verticalScale(22),
         fontStyle: "Urbanist",
         fontWeight: "400",
         fontSize: moderateScale(14),
         lineHeight: verticalScale(22),
         color: "#1D1E25",
+        marginTop : verticalScale(13),
+        marginBottom : verticalScale(13)
     },
     simImage: {
         marginLeft: scale(130),

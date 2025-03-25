@@ -9,16 +9,18 @@ const AppInput = ({
   value,
   onChangeText,
   error,
-  style
+  style = {style} // Ensure style is always an object
 }) => {
+  const textColor = style.color || "#0048A6"; // Fallback color
+
   return (
     <TextInput
-      mode='flat'
+      mode="flat"
       style={[
-        style,
-        {
-          backgroundColor: 'transparent', 
-          color: '#ffffff',     
+        Array.isArray(style) ? style : [style], // Ensure style is always an array
+        { 
+          backgroundColor: "transparent", 
+          color: textColor, // Ensure text color is applied
         }
       ]}
       placeholder={placeholder}
@@ -28,18 +30,19 @@ const AppInput = ({
       autoCorrect={false}
       value={value}
       onChangeText={onChangeText}
-      placeholderTextColor="#ffffff"   
-      cursorColor="#ffffff"           
+      placeholderTextColor={textColor} // Apply correct placeholder color
+      cursorColor={textColor} // Cursor color
       theme={{
         colors: {
-          primary: '#ffffff',          
-          background: 'transparent', 
-          text: '#ffffff',            
-          placeholder: '#ffffff',      
-          onSurface: '#ffffff',        
+          primary: textColor, 
+          background: "transparent",
+          text: textColor,
+          placeholder: textColor,
+          onSurface: textColor, 
         }
       }}
       activeUnderlineColor="transparent" 
+      underlineColor="transparent" 
     />
   );
 };

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { scale, moderateScale, verticalScale } from "react-native-size-matters";
 
-export default function Topup({ setAdd, bankTransfer }) {
+export default function Topup({ setAdd, bankTransfer , creditCardService}) {
     const services = [
         {
             title: "Bank Transfer",
@@ -38,7 +38,7 @@ export default function Topup({ setAdd, bankTransfer }) {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={bankTransfer}>
+                        <TouchableOpacity onPress={(service.title === "Bank Transfer") ? bankTransfer : creditCardService}>
                             {console.log("Service title is:", service.title)}
                             <View style={styles.midContainer}>
                                 <Text style={styles.midContainerText1}>

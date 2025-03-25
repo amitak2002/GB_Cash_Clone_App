@@ -3,12 +3,11 @@ import AppInput from '@/components/AppInput'
 import React, { useEffect , useState } from 'react'
 import { View ,  Text , StyleSheet , ImageBackground, TouchableOpacity} from 'react-native'
 import { useLocalSearchParams , useRouter } from 'expo-router'
-import { moderateScale , verticalScale } from 'react-native-size-matters'
+import { scale , moderateScale , verticalScale } from 'react-native-size-matters'
 import LoaderScreen from '@/components/Loader'
 import axios from 'axios'
 import { authApiUtils } from "../utils/AuthApi.js";
 import {END_POINT} from '../utils/endPoint.js'
-import { scale } from 'react-native-size-matters'
 import { Formik } from 'formik'
 import { userAdharOtpSchema } from '@/validationYUP/authValidation.js'
 import Toast from 'react-native-toast-message';

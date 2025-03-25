@@ -2,18 +2,33 @@ import {View,Text,Image, StyleSheet, Modal, TouchableOpacity,ImageBackground } f
 import { Stack, useRouter } from "expo-router";
 import { verticalScale,scale,  moderateScale, moderateVerticalScale,} from "react-native-size-matters";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OptionContainer from "../../components/OptionComponent.jsx";
 import HistoryContainer from "../../components/HistoryComponent.jsx";
 import Topup from "../../components/TopUp/Topup.jsx";
 import Mobile from "../../components/serviceComponents/Mobile.jsx";
 import Electricity from "../../components/serviceComponents/Electricity.jsx";
+import LoaderScreen from "../../components/Loader.jsx";
 
 export default function Layout() {
+
+    const [loader , setLoader] = useState(true)
+    useEffect(() => {
+        const timeOut = setTimeout(() => {
+            setLoader(false)
+        },3000)
+        return () => clearInterval(timeOut)
+    },[])
+
+    console.log("enter at home page")
+    
     const router = useRouter();
 
     // card add karne ke liye same sabka header wale icon ka kerna hoga
     const [addState, setAddState] = useState(false);
+    const [transfer, setTransferState] = useState(false);
+    const [drawl, setDrawlState] = useState(false);
+    const [scanner, setScannerState] = useState(false);
 
     const [state, setState] = useState("");
     console.log("state is : ", state);
@@ -21,7 +36,7 @@ export default function Layout() {
     const serviceState = (state) => {
         switch (state) {
             case "phone":
-                return <Mobile onPress={() => setState("")} />;
+                return <Mobile onPress={() => setState("")}/>;
             case "electricity":    
                 return <Electricity onPress={() => setState("")} />;
             default:
@@ -50,6 +65,9 @@ export default function Layout() {
         scanner: require("../../assets/images/scanner.png"),
     };
 
+    if (loader) {
+        return <LoaderScreen/>
+    }
     // use local storage to store and retrievee data
 
     return (
@@ -70,8 +88,7 @@ export default function Layout() {
                         </View>
 
                         <View style={style.rightSection}>
-                            <TouchableOpacity
-                                
+                            <TouchableOpacity    
                             >
                                 <Ionicons
                                     name="notifications-outline"
@@ -163,7 +180,11 @@ export default function Layout() {
                                 setAddState((prev) => !prev);
 
                                 // {/*agar account add hoga jbhi navigate karega wrna add aoount wale page pr navigate karega*/}
-                                router.push("../sendMoneyServices/contacts");
+                                router.push("../sendMoneyServices/banktransfer")
+                            }}
+                            creditCardService = {() => {
+                                setAddState((prev) => !prev)
+                                router.push("../sendMoneyServices/creditcardtransfer")
                             }}
                         />
                     </View>
