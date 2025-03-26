@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Stack, Redirect } from "expo-router";
+import React from "react";
+import { Stack } from "expo-router";
 import { PaperProvider } from "react-native-paper";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
 export default function Layout() {
     // check authenticated
-    const [authenticated, setIsAuthenticted] = useState(false);
+   
 
     const toastConfig = {
         success: (props) => (
@@ -51,11 +51,7 @@ export default function Layout() {
     return (
         <PaperProvider>
             <Stack screenOptions={{ headerShown: false }}>
-                {authenticated ? (
-                    <Redirect to="/end-user" />
-                ) : (
-                    <Redirect to="/(routes)/onboarding" />
-                )}
+                <Stack.Screen name="index"/>
             </Stack>
 
             {/* ✅ Custom Toast Config Added */}

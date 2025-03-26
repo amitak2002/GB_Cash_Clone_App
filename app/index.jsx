@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Redirect } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getData } from '@/utils/LocalStoragemethods/LocalStorage';
  
 export default function Index() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,16 +10,22 @@ export default function Index() {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const token = await AsyncStorage.getItem('userNumber'); // take token from local storage 
-        setIsAuthenticated(!!token);
-      } catch (error) {
-        console.error('Error accessing AsyncStorage:', error);
-      } finally {
-        setLoading(false);
-      }        
-    };
-
-    checkAuthentication();
+        const localStorageData = await getData("user")
+        if (localStorageData) {
+          console.log("local storage data is : ",localStorage)
+          setIsAuthenticated(true)
+        }
+        setLoading(false)
+      } 
+      catch (error) {
+        console.log("error comes at authIndexpage : ",error)
+        return
+      }
+      finally{
+        setLoading(false)
+      }
+    }
+    checkAuthentication()
   }, []);
 
   if (loading) {
@@ -35,11 +41,8 @@ export default function Index() {
 
 
   return (
-    <>
-      
-      <Redirect href={isAuthenticated ? '/end-user' : '/(routes)/onboarding'} />
-    </>
-  );
+    <Redirect href={isAuthenticated ? '/end-user' : '/(routes)/onboarding'} />
+    );
 }
 
 const styles = StyleSheet.create({

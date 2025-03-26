@@ -12,7 +12,8 @@ import AppButton from '../../components/AppButton.jsx'
 
 export default function Contacts() {
 
-    const [loader , setLoader] = useState(true);
+    const [loader , setLoader] = useState(true); 
+
     useEffect(() => {
         const timeOut = setTimeout(() => {
             setLoader(false)
@@ -197,7 +198,6 @@ export default function Contacts() {
                     </View>
 
                 </Modal>
-                
             </View>
         </View>
     );
@@ -327,7 +327,6 @@ const style = StyleSheet.create({
         justifyContent : "center",
         alignItems : "center"
     },
-    
     modalButton : {
          backgroundColor : "#000000",
         width:"100%",

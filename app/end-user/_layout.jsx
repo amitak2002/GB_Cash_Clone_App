@@ -9,11 +9,27 @@ import Topup from "../../components/TopUp/Topup.jsx";
 import Mobile from "../../components/serviceComponents/Mobile.jsx";
 import Electricity from "../../components/serviceComponents/Electricity.jsx";
 import LoaderScreen from "../../components/Loader.jsx";
+import Toast from 'react-native-toast-message';
+
+import { getData } from "@/utils/LocalStoragemethods/LocalStorage.js";
 
 export default function Layout() {
 
     const [loader , setLoader] = useState(true)
+    const [userData , setUserData] = useState({}) //local storagedata of user
+
     useEffect(() => {
+        const localStorageData = getData("user") // retrieve data from local storage if user already login
+        if (localStorageData) {
+            console.log("local storages data is : ",localStorageData)
+            setUserData(localStorageData)
+        }
+        Toast.show({
+            type : "success",
+            text1 : "welcome to home page",
+            visibilityTime : 1000,
+            position : "top"
+        })
         const timeOut = setTimeout(() => {
             setLoader(false)
         },3000)
@@ -83,7 +99,7 @@ export default function Layout() {
                                 <Text style={style.leftText1}>
                                     Welcome Back
                                 </Text>
-                                <Text style={style.leftText2}>Admin</Text>
+                                <Text style={style.leftText2}>{userData.care_of.substring(5)}</Text>
                             </View>
                         </View>
 

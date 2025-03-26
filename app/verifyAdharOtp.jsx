@@ -11,6 +11,7 @@ import {END_POINT} from '../utils/endPoint.js'
 import { Formik } from 'formik'
 import { userAdharOtpSchema } from '@/validationYUP/authValidation.js'
 import Toast from 'react-native-toast-message';
+import { setData } from '@/utils/LocalStoragemethods/LocalStorage.js'
 
 
 function VerifyAhdarOtp() {
@@ -68,6 +69,12 @@ function VerifyAhdarOtp() {
           "Content-Type" : "application/json"
         }}
       )  
+
+      const localstorageData = setData("user" , response.data.otpVerificationData)
+      console.log("local storageData : ",localstorageData) 
+      
+      
+
       setLoader(false)
       console.log("response after adhar otp verify : ",response)
       let msg = (response?.data?.message)

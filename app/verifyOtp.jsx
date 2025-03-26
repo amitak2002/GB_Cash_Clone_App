@@ -11,7 +11,7 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Formik } from "formik";
 import { userOtpSchema } from "@/validationYUP/authValidation";
 import Toast from 'react-native-toast-message';
-import {setData} from "../utils/LocalStoragemethods/LocalStorage.js"
+
 
 
 export default function VerifyOtp() {
@@ -74,12 +74,7 @@ export default function VerifyOtp() {
         headers: { 'Content-Type': 'application/json' }
       });
 
-      console.log("data of user is : ",response.data)
-      const localstorageData = setData("user" , response)
-      console.log("local storageData : ",localstorageData) 
-      
-      setLoading(false);
-      console.log('response verify is : ', response);
+      console.log("data of user is : ",response)
       let msg = (response?.data?.message);
       
       Toast.show({
