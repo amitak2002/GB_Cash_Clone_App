@@ -241,7 +241,7 @@ const style = StyleSheet.create({
         width : "100%",
         height : verticalScale(692),
         marginTop : verticalScale(16),
-        alignItems : "center",
+        alignItems : "center",    
     },
     second : {
         backgroundColor : "#FFFFFF"

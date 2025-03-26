@@ -8,13 +8,15 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuthentication = async () => {
+    const checkAuthentication =  () => {
       try {
-        const localStorageData = await getData("user")
-        if (localStorageData) {
-          console.log("local storage data is : ",localStorage)
-          setIsAuthenticated(true)
-        }
+        const localStorageData =  getData("user")
+        localStorageData.then((data) => {
+          console.log("local storage data at entry page : ",data)
+          if (data != undefined) {
+            setIsAuthenticated(true)
+          }
+        }) 
         setLoading(false)
       } 
       catch (error) {

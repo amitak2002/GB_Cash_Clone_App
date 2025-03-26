@@ -71,11 +71,9 @@ function VerifyAhdarOtp() {
       )  
 
       const localstorageData = setData("user" , response.data.otpVerificationData)
-      console.log("local storageData : ",localstorageData) 
-      
-      
-
+      console.log("local storageData set Data: ",localstorageData) 
       setLoader(false)
+
       console.log("response after adhar otp verify : ",response)
       let msg = (response?.data?.message)
       Toast.show({
