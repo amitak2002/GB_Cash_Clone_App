@@ -7,11 +7,12 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import LoaderScreen from "../components/Loader";
 import { authApiUtils } from "../utils/AuthApi.js";
 import {END_POINT} from '../utils/endPoint.js'
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Formik } from "formik";
 import { userOtpSchema } from "@/validationYUP/authValidation";
 import Toast from 'react-native-toast-message';
+import {setData} from "../utils/LocalStoragemethods/LocalStorage.js"
+
 
 export default function VerifyOtp() {
   const { number } = (useLocalSearchParams())
@@ -52,7 +53,7 @@ export default function VerifyOtp() {
         }
       }
 
-      let time = `0${min}:${sec < 10 ? '0' + sec : sec}`;
+       time = `0${min}:${sec < 10 ? '0' + sec : sec}`;
       setTimer(time);
     }, 1000);
 
@@ -72,6 +73,10 @@ export default function VerifyOtp() {
       const response = await axios.post(`${authApiUtils}${END_POINT.SIGN_UP_VERIFICATION}`, { phone: `+91${number}`, otp: otpVerify }, {
         headers: { 'Content-Type': 'application/json' }
       });
+
+      console.log("data of user is : ",response.data)
+      const localstorageData = setData("user" , response)
+      console.log("local storageData : ",localstorageData) 
       
       setLoading(false);
       console.log('response verify is : ', response);
