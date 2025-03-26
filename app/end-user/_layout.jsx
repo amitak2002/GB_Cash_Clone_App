@@ -1,4 +1,4 @@
-import {View,Text,Image, StyleSheet, Modal, TouchableOpacity,ImageBackground } from "react-native";
+import {View,Text,Image, StyleSheet, Modal, TouchableOpacity,ImageBackground , TouchableWithoutFeedback  } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { verticalScale,scale,  moderateScale, moderateVerticalScale,} from "react-native-size-matters";
 import { Ionicons } from "@expo/vector-icons";
@@ -198,34 +198,37 @@ export default function Layout() {
             </View>
 
             {/* make a model when click on valulet icon */}
-            <Modal 
-                animationIn={"slideInUp"}
-                animationInTiming={"500"}
-                transparent={true} 
-                visible={addState} 
-                animationType="slide"
-            >
+            <Modal
+            transparent={true}
+            visible={addState} // ✅ react-native ke Modal me visible use hota hai
+            onRequestClose={() => setAddState(false)}
+            animationType="slide" // ✅ react-native ka animationType
+        >
+            <TouchableWithoutFeedback onPress={() => setAddState(false)}>
                 <View style={{ flex: 1, backgroundColor: "#00000080" }}>
                     <View style={{ flex: 0.5 }}></View>
-                    <View style={{ flex: 0.5 }}>
-                        {/*ye top up bank add ke liye hi hai baki me condition lga ke krenge addWala hai*/}
+                    <View style={{ 
+                        flex: 0.5, 
+                        backgroundColor: "#fff", 
+                        borderTopLeftRadius: 20, 
+                        borderTopRightRadius: 20, 
+                        padding: 20 
+                    }}>
                         <Topup
-                            setAdd={() => setAddState((prev) => !prev)}
+                            setAdd={() => setAddState(false)}
                             bankTransfer={() => {
-                                setAddState((prev) => !prev);
-
-                                // {/*agar account add hoga jbhi navigate karega wrna add aoount wale page pr navigate karega*/}
-                                router.push("../sendMoneyServices/banktransfer")
+                                setAddState(false);
+                                router.push("../sendMoneyServices/banktransfer");
                             }}
-                            creditCardService = {() => {
-                                setAddState((prev) => !prev)
-                                router.push("../sendMoneyServices/creditcardtransfer")
+                            creditCardService={() => {
+                                setAddState(false);
+                                router.push("../sendMoneyServices/creditcardtransfer");
                             }}
                         />
                     </View>
                 </View>
-            </Modal>
-
+            </TouchableWithoutFeedback>
+        </Modal>
             {/*model for mobile*/}
         </View>
     );

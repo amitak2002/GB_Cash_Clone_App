@@ -3,6 +3,7 @@ import { Stack } from "expo-router";
 import { PaperProvider } from "react-native-paper";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
+
 export default function Layout() {
     // check authenticated
    
@@ -50,12 +51,15 @@ export default function Layout() {
 
     return (
         <PaperProvider>
+            
             <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index"/>
             </Stack>
 
             {/* ✅ Custom Toast Config Added */}
-            <Toast config={toastConfig} />
+            
+        
+        <Toast config={toastConfig} />
         </PaperProvider>
     );
 }
