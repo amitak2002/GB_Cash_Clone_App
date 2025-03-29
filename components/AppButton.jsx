@@ -1,9 +1,10 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { moderateScale } from "react-native-size-matters";
 
 const AppButton = ({ title, onPress, style, textStyle }) => {
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
+        <TouchableOpacity onPress={onPress} style={[styles.button , style]}>
             <Text style={[styles.buttonText, textStyle]}>{title}</Text>
         </TouchableOpacity>
     );
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "#FFFFFF",
-        fontSize: 16,
+        fontSize: moderateScale(16),
         fontWeight: "700",
     },
 });

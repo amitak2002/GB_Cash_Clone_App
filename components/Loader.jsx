@@ -1,6 +1,6 @@
 import { View, ActivityIndicator, Text } from "react-native";
 
-const LoaderScreen = ({ message = "Loading...", size = "large", color = "#007bff" }) => {
+const LoaderScreen = ({ message = "Loading...", size = "large", color = "#0f76e4" }) => {
   return (
     <View style={styles.container}>
       <ActivityIndicator size={size} color={color} />

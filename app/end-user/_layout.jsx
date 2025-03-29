@@ -12,6 +12,7 @@ import LoaderScreen from "../../components/Loader.jsx";
 import Toast from 'react-native-toast-message';
 
 import { getData } from "@/utils/LocalStoragemethods/LocalStorage.js";
+import {fonts , fontImages} from "../../utils/Fonts/Fonts.js"
 
 export default function Layout() {
 
@@ -81,15 +82,6 @@ export default function Layout() {
         } else if (state === "scanner") {
             setScannerState((prev) => !prev);
         }
-    };
-
-    const fonts = ["add", "transfer", "drawl", "scanner"];
-
-    const fontImages = {
-        add: require("../../assets/images/add.png"),
-        transfer: require("../../assets/images/transfer.png"),
-        drawl: require("../../assets/images/drawl.png"),
-        scanner: require("../../assets/images/scanner.png"),
     };
 
     if (loader) {
@@ -218,7 +210,7 @@ export default function Layout() {
                             setAdd={() => setAddState(false)}
                             bankTransfer={() => {
                                 setAddState(false);
-                                router.push("../sendMoneyServices/banktransfer");
+                                router.push("../sendMoneyServices/topuppage");
                             }}
                             creditCardService={() => {
                                 setAddState(false);
@@ -354,8 +346,8 @@ const style = StyleSheet.create({
         justifyContent: "center",
     },
     fontDivImage: {
-        width: scale(24),
-        height: verticalScale(24),
+        width: scale(61),
+        height: verticalScale(57),
     },
     optionCOntainer: {
         flex: 0.5,

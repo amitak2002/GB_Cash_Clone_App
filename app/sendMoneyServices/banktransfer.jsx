@@ -1,12 +1,15 @@
-import { View, Text, StyleSheet , Image , TouchableOpacity , Dimensions, FlatList , Modal } from "react-native";
+import { View, Text, StyleSheet , Image , TouchableOpacity , Dimensions , Modal , TouchableWithoutFeedback} from "react-native";
 import React , {useState , useEffect} from "react";
 import {scale , verticalScale , moderateScale} from "react-native-size-matters"
 import {useRouter} from 'expo-router'
 import AppInput from "../../components/AppInput.jsx"
 import { contactObject } from "../../utils/contactsObject/ContactObject.js";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import LoaderScreen from "../../components/Loader.jsx"
 import AppButton from '../../components/AppButton.jsx'
+
+import RecentContact from "../../components/contactsComponents/RecentContact.jsx";
+import AllContacts from "../../components/contactsComponents/AllContacts.jsx";
+import Toast from 'react-native-toast-message';
 
 
 
@@ -15,31 +18,41 @@ export default function Contacts() {
     const [loader , setLoader] = useState(true); 
 
     useEffect(() => {
+        Toast.show({
+            type : "success",
+            text1 : "welcome",
+            visibilityTime : 1000,
+            position : "top"
+        })
         const timeOut = setTimeout(() => {
             setLoader(false)
         } , 3000)
         return () => clearTimeout(timeOut);
     } , [])
 
-    const [nameUsers , setNameUser] = useState("");
+    const [nameUsers , setNameUser] = useState("")
+    const [email , setEmail] = useState("")
 
     // when pressed on any contact use this methods to perform function
     const methods = {
         setUserNameMethod : (data) => setNameUser(data),
         setSendMethod : (nameUsers) => (nameUsers.length == 0) ? setSend(false) : setSend(true),
+        setEmailMethod : (data) => setEmail(data)
     }
 
     const {width : responsiveWidth , height : responsiveHeight} = Dimensions.get("window")
     const scaleFactor = responsiveWidth / 375
 
     const router = useRouter()
-    const [send , setSend] = useState(false)
-    console.log("user is : ",nameUsers)
-    console.log("send is : ",send)
-
-
+    const [send , setSend] = useState(false) //modal show or not for continue
+    
     const usersData = contactObject.filter((item) => (item.name.toLowerCase()).startsWith(nameUsers.toLowerCase()))
     const filteredData = (usersData.length === 0 )? contactObject : usersData
+
+    const handleToSendAmountPage = () => {
+        // this used to push or navigate to sendAmountPage1 (chek and apply validation left work)
+        router.push({pathname : "./sendAmountPage1" , params : {contactName : nameUsers , email : email}})
+    }
 
     if (loader) {
         return <LoaderScreen />
@@ -51,11 +64,11 @@ export default function Contacts() {
                 {/*press karne pr back ho jayenge accountadd wale page pr */}
                 <TouchableOpacity onPress={() => router.back()}>
                     <Image source={require('../../assets/images/leftArrow.png')}
-                        style={style.leftArrow}
+                        style={[style.leftArrow , {width : (24/375)*responsiveWidth , height : (24/812)*responsiveHeight}]}
                     />
                 </TouchableOpacity>
 
-                <View style={style.sendTextContainer}>
+                <View style={[style.sendTextContainer , {width : (145/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
                     <Text style={style.sendText}>Send</Text>
                 </View>
             </View>
@@ -77,7 +90,7 @@ export default function Contacts() {
                         </View>
 
                         <View style={[style.searchContactContainer , {width : (125/375)*responsiveWidth , height : (22/812)*responsiveHeight}] }>
-                            <AppInput style={[style.searchContactNumber, {width : (125/375)*responsiveWidth , height : (22/812)*responsiveHeight}]}
+                            <AppInput style={[{width : (125/375)*responsiveWidth , height : (22/812)*responsiveHeight , ... style.searchContactNumber}]}
                                 placeholder={"Search Contact"}
                                 value={nameUsers}
                                 onChangeText={setNameUser}
@@ -91,35 +104,11 @@ export default function Contacts() {
                             <Text style={[style.recentText , {width : (111/375)*responsiveWidth , height : (20/812)*responsiveHeight}]}>Recent Contacts</Text> 
                         </View>
 
-                        <View style={[style.recentContactData , {width : (198/375)*responsiveWidth , height : (224/812)*responsiveHeight}]}>
-                            <FlatList 
-                                data={filteredData}
-                                showsVerticalScrollIndicator={false}
-                                keyExtractor={(item, index) => index.toString()} 
-                                renderItem={({ item, index }) => (  
-                                    <TouchableOpacity
-                                     onPress={() => {
-                                        methods.setUserNameMethod(item.name);
-                                        methods.setSendMethod(item.name)
-                                        }}
-                                    >
-                                        <Animated.View 
-                                        entering={FadeInUp.delay(index * 100).duration(500)} 
-                                        style={[style.flatListViewContainer , {width : (163/375)*responsiveWidth , height : (42/812)*responsiveHeight , backgroungColor : `${send === true ? '#F7F7F7' : "#ffffff"}`}]}
-                                        >
-                                        <View style={{width : (42/375)*responsiveWidth , height : (42/812)*responsiveHeight , borderRadius: "100%" ,backgroundColor:"#E9ECF2"}}>
-                                            <Image />
-                                        </View>
-
-                                        <View style={[style.flatListDataContainer , {height : (42/812)*responsiveHeight , width : (198/375)*responsiveWidth}]}>
-                                            <Text style={style.dataText1}>{item.name}</Text>
-                                            <Text style={style.dataText2}>{item.email}</Text>
-                                        </View>
-                                    </Animated.View>
-                                    </TouchableOpacity>
-                                )}
-                            />
-                        </View>
+                        {/* recent contact component */}
+                        <RecentContact 
+                            filteredData={filteredData} 
+                            methods={methods}
+                        />
                     </View>
 
                     {/*all contacts container are here */} 
@@ -129,33 +118,11 @@ export default function Contacts() {
                                 <Text style={[style.recentText , {width : (111/375)*responsiveWidth , height : (20/812)*responsiveHeight}]}>All Contact</Text> 
                             </View>
 
-                            <View style={[style.recentContactData , {width : (198/375)*responsiveWidth , height : (224/812)*responsiveHeight }]}>
-                                <FlatList 
-                                    data={filteredData}
-                                    showsVerticalScrollIndicator={false}
-                                    keyExtractor={(item, index) => index.toString()} 
-                                    renderItem={({ item, index }) => (  
-                                        <TouchableOpacity onPress={() => {
-                                            methods.setUserNameMethod(item.name);
-                                            methods.setSendMethod(item.name);
-                                        }}>
-                                            <Animated.View 
-                                            entering={FadeInUp.delay(index * 100).duration(500)} 
-                                            style={[style.flatListViewContainer , {width : (163/375)*responsiveWidth , height : (42/812)*responsiveHeight , backgroungColor : `${send === true ? '#F7F7F7' : "#ffffff"}`}]}
-                                            >
-                                            <View style={{width : (42/375)*responsiveWidth , height : (42/812)*responsiveHeight , borderRadius: "100%" ,backgroundColor:"#E9ECF2"}}>
-                                                <Image />
-                                            </View>
-
-                                            <View style={[style.flatListDataContainer , {height : (42/812)*responsiveHeight , width : (198/375)*responsiveWidth}]}>
-                                                <Text style={style.dataText1}>{item.name}</Text>
-                                                <Text style={style.dataText2}>{item.email}</Text>
-                                            </View>
-                                        </Animated.View>
-                                        </TouchableOpacity>
-                                    )}
-                                />
-                            </View>
+                            {/* All contacts components*/}
+                            <AllContacts 
+                                filteredData={filteredData}  
+                                methods={methods}
+                            />
                         </View>
 
                         {(send === false) ? (
@@ -189,13 +156,20 @@ export default function Contacts() {
                     backgroundColor={'#00000060'}
                     style={{}}
                 >
-                    <View style={[style.modalContainer]}>
-                        <View style={[style.modal , {width : (375/375)*responsiveWidth , height : (92/812)*responsiveHeight}]}>
-                            <View style={[style.modalButton , {width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight}]}>
-                                <AppButton  title={"Continue"} style={[style.modalButton]} textStyle={{fontWeight : "700" , fontStyle : "Urbanist" , fontSize : moderateScale(14) , color : "#FFFFFF"}}/>
+                    <TouchableWithoutFeedback onPress={() => setSend(false)}>
+                        <View style={[style.modalContainer]}>
+                            <View style={[style.modal , {width : (375/375)*responsiveWidth , height : (92/812)*responsiveHeight}]}>
+                                <View style={[style.modalButton , {width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight}]}>
+                                    <AppButton  
+                                        title={"Continue"} 
+                                        style={[style.modalButton]} 
+                                        textStyle={{fontWeight : "700" , fontStyle : "Urbanist" , fontSize : moderateScale(14) , color : "#FFFFFF"}}
+                                        onPress={handleToSendAmountPage}
+                                    />
+                                </View>
                             </View>
                         </View>
-                    </View>
+                    </TouchableWithoutFeedback>
 
                 </Modal>
             </View>
@@ -254,11 +228,13 @@ const style = StyleSheet.create({
         
     },
     searchContainer : {
-        marginLeft : scale(17)
+        marginLeft : scale(17),
+        
     },
     searchContactContainer : { 
         color : "black",
-        marginLeft : scale(13)
+        marginLeft : scale(13),
+        
     },
     searchContactNumber : {
         color : "#0048A6",
@@ -266,45 +242,17 @@ const style = StyleSheet.create({
         fontWeight : "400",
         lineHeight : verticalScale(22),
         fontSize : moderateScale(14),
-        borderWidth : 0
+        borderWidth : 0,
+        marginBottom : verticalScale(13)
     },
     recentContainer : {
-        marginTop : verticalScale(24),
-        
+        marginTop : verticalScale(24)
     },
     recentText : {
-        fontStyle:"Urbanist",
+        fontStyle : "Urbanist",
         fontWeight : "700",
         fontSize : moderateScale(16),
-        lineHeight : verticalScale(20),
-        color : "#1D1E25"
-    },
-    recentContactData : {
-        marginTop : verticalScale(16),
-    },
-    flatListViewContainer : {
-        marginBottom : verticalScale(16),
-        flexDirection : "row",
-        alignItems:"center",
-        justifyContent : "flex-start"
-    },
-    flatListDataContainer : {
-        marginLeft : scale(12),
-        justifyContent : "center"
-    },
-    dataText1 : {
-        fontStyle : "Urbanist",
-        fontWeight:"700",
-        fontSize:moderateScale(14),
-        color : "#1D1E25",
-        lineHeight : verticalScale(18)
-    },
-    dataText2 : {
-        fontStyle : "Urbanist",
-        fontWeight:"400",
-        fontSize:moderateScale(12),
-        color : "#1D1E25",
-        lineHeight : verticalScale(16)
+        lineHeight : verticalScale(20)
     },
     scannerAddContainer : {
         marginTop : verticalScale(18),

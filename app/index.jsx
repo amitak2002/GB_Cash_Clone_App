@@ -17,6 +17,9 @@ export default function Index() {
             setIsAuthenticated(true)
           }
         }) 
+        localStorageData.catch((error) => {
+          console.log("error is at entry page : ",error)
+        })
         setLoading(false)
       } 
       catch (error) {

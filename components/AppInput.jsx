@@ -9,15 +9,18 @@ const AppInput = ({
   value,
   onChangeText,
   error,
-  style = {style} // Ensure style is always an object
+  style // Ensure style is always an object
 }) => {
-  const textColor = style.color || "#0048A6"; // Fallback color
+
+  const appliedStyle = Array.isArray(style) ? style[0] : style
+
+  const textColor = appliedStyle?.color || "#0048A6"; // Fallback color
 
   return (
     <TextInput
       mode="flat"
       style={[
-        Array.isArray(style) ? style : [style], // Ensure style is always an array
+        appliedStyle ,
         { 
           backgroundColor: "transparent", 
           color: textColor, // Ensure text color is applied
