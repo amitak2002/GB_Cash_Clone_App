@@ -69,9 +69,9 @@ export default function sendAmountPage1() {
             </View>
         </View>
 
-        <View style={[style.amountContainer , {width : (340/375)*responsiveWidth , height : (182/812)*responsiveHeight}]}>
+        <View style={[style.amountContainer , {width : (340/375)*responsiveWidth , height : (180/812)*responsiveHeight}]}>
             <AppInput 
-                style={[{width : (185/375)*responsiveWidth , height : (45/812)*responsiveHeight , ...style.amountInput }]}
+                style={[{width : (250/375)*responsiveWidth , height : (45/812)*responsiveHeight , ...style.amountInput }]}
                 value={selectAmount}
                 onChangeText={setSelectAmount} 
                 keyboardType='numeric'
@@ -171,13 +171,12 @@ const style = StyleSheet.create({
         marginTop : verticalScale(25)
     },
     amountInput : {
-        width : "100%",
         backgroundColor:"red",
         color : "#111827",
         fontSize : moderateScale(40),
         fontWeight : "700",
         fontStyle : "Urbanist",
-        marginLeft : scale(90),
+        marginLeft : scale(50),
         marginRight : scale(114),
         
     },

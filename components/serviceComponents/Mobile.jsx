@@ -140,7 +140,7 @@ const style = StyleSheet.create({
     },
     inputText: {
         marginLeft: scale(7),
-        width: scale(22),
+        width: scale(25),
         height: verticalScale(22),
         fontStyle: "Urbanist",
         fontWeight: "400",
@@ -148,7 +148,7 @@ const style = StyleSheet.create({
         fontSize: moderateScale(14),
     },
     input: {
-        width: scale(100),
+        width: scale(98),
         height: verticalScale(22),
         fontStyle: "Urbanist",
         fontWeight: "400",

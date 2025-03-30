@@ -21,6 +21,10 @@ export default function transfersDetails() {
     const {contactName , email} = useLocalSearchParams()
     console.log("name and email is : ",contactName , email)
 
+    const handleTransactionSucessFull = () => {
+        router.push("../sendMoneyServices/transactionSucessfull")
+    }
+
     if (loader) {
         return <LoaderScreen message={"please wait"}/>
     }
@@ -105,7 +109,7 @@ export default function transfersDetails() {
 
         {/**button container start */}
         <View style={[{width : (375/375)*responsiveWidth , height:(92/812)*responsiveHeight , ...style.bottomButtonContainer}]}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleTransactionSucessFull}>
                 <View style={[{width : (335/375)*responsiveWidth , height : (45/812)*responsiveHeight , ...style.buttonContainer}]}>
                     <Text style={style.textButton}>Send now</Text>
                 </View>
@@ -152,7 +156,7 @@ const style = StyleSheet.create({
 
         },
         bottomButtonContainer : {
-            marginTop : verticalScale(318),
+            marginTop : verticalScale(280),
             alignItems:"center",
             justifyContent:"center"
         },

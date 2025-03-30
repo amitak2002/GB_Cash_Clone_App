@@ -23,7 +23,8 @@ export default function TopUpAmountOptions({topUpMethods}) {
             <TouchableOpacity 
               onPress={() => {
                 setClick(index) ,
-                topUpMethods.addAmountMathods(item)
+                topUpMethods.addAmountMathods(item),
+                topUpMethods.setInputPaisaMethod(item)
               }}
             >
               <View style={[{width : (99/315)*responsiveWidth , height : (42/812)*responsiveHeight , ...style.PaisaContainer , backgroundColor : (click == index) ? `black` : `#F7F7F7`}]}>

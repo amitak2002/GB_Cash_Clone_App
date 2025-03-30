@@ -1,5 +1,5 @@
 import { View, Text , StyleSheet , Dimensions , TouchableOpacity , Image , } from 'react-native'
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
 import { useRouter } from 'expo-router'
 import { scale , moderateScale , verticalScale } from 'react-native-size-matters'
 import AppInput from "../../components/AppInput.jsx"
@@ -14,9 +14,17 @@ export default function TopUpPage() {
     const router = useRouter()
 
     const [amount , setAmount] = useState("00.00")
+    const [inputPaise , setInputPaisa] = useState("00.00")
+
+    useEffect(() => {
+        if (inputPaise !== "00.00") {
+            setAmount(inputPaise)
+        }
+    }, [inputPaise]) 
 
     const topUpMethods = {
-        addAmountMathods : (data) => setAmount(data)
+        addAmountMathods : (data) => setAmount(data),
+        setInputPaisaMethod : (data) => setInputPaisa(data)
     }
 
     const handleSendPage = () => {
@@ -55,13 +63,15 @@ export default function TopUpPage() {
                     <Text style={style.lowerContainerText1}>Top up minimum INR {amount?.substring(3,)}</Text>
                 </View>
 
-                <View style={[{width : (180/375)*responsiveWidth, height:(60/812)*responsiveHeight , ...style.lowerContainerInput}]}>
+                <View style={[{width : (215/375)*responsiveWidth, height:(60/812)*responsiveHeight , ...style.lowerContainerInput}]}>
                     <AppInput 
-                        style={[{width : (180/375)*responsiveWidth , height : (60/812)*responsiveHeight , ...style.input}]}
+                        style={[{width : (215/375)*responsiveWidth , height : (60/812)*responsiveHeight , ...style.input}]}
                         placeholder={'00.00'}
-                        value={amount}
+                        value={inputPaise}
+                        onChangeText={setInputPaisa}
                         keyboardType='numeric'
                     />
+                    
                 </View>
 
                 <View style={[{width: (330/375)*responsiveWidth, height:(1/812)*responsiveHeight , ...style.stripe}]}></View>
@@ -72,7 +82,7 @@ export default function TopUpPage() {
             </View>
 
             {/**button ke liye lower ke andr hi hai ye container*/}
-            <TouchableOpacity style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , marginTop : verticalScale(315),}]}>
+            <TouchableOpacity style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , marginTop : verticalScale(270),}]}>
                 <View style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.buttonContainer}]}>
                     <AppButton 
                         style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.button}]}

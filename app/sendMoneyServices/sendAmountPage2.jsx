@@ -107,7 +107,7 @@ export default function sendAmountPage2() {
 
                 <View style={[{width : (335/375)*responsiveWidth , height : (80/812)*responsiveHeight , ...style.thirdInputContainer}]}>
                     <AppInput 
-                        style={[{width : "90%" , height : "50" , ...style.inputUser1}]}
+                        style={[{width : "100%" , height : "50" , ...style.inputUser1}]}
                         placeholder={"Type notes"}
                     />
                 </View>
@@ -210,7 +210,7 @@ const style = StyleSheet.create({
         fontWeight:"400",
         fontSize:moderateScale(14),
         lineHeight : verticalScale(22),
-        marginLeft : scale(10)
+        marginLeft : scale(10),
     },
     secondInputContainer : {
         marginTop : verticalScale(20),
@@ -233,7 +233,7 @@ const style = StyleSheet.create({
         alignItems : "center",
         justifyContent : "cetner",
         
-        marginTop : verticalScale(45),
+        marginTop : verticalScale(40),
     },
     modalButton : {
         backgroundColor : "#000000",

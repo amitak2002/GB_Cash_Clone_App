@@ -100,8 +100,8 @@ export default function Contacts() {
                     </View>
 
                     <View style={[style.recentContainer , {width : (198/375)*responsiveWidth , height : (264/812)*responsiveHeight}]}>
-                        <View style={[{width : (111/375)*responsiveWidth , height : (20/812)*responsiveHeight}]}>
-                            <Text style={[style.recentText , {width : (111/375)*responsiveWidth , height : (20/812)*responsiveHeight}]}>Recent Contacts</Text> 
+                        <View style={[{width : (150/375)*responsiveWidth , height : (20/812)*responsiveHeight}]}>
+                            <Text style={[style.recentText , {width : (150/375)*responsiveWidth , height : (20/812)*responsiveHeight}]}>Recent Contacts</Text> 
                         </View>
 
                         {/* recent contact component */}
@@ -158,7 +158,7 @@ export default function Contacts() {
                 >
                     <TouchableWithoutFeedback onPress={() => setSend(false)}>
                         <View style={[style.modalContainer]}>
-                            <View style={[style.modal , {width : (375/375)*responsiveWidth , height : (92/812)*responsiveHeight}]}>
+                            <View style={[style.modal , {width : (375/375)*responsiveWidth , height : (140/812)*responsiveHeight}]}>
                                 <View style={[style.modalButton , {width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight}]}>
                                     <AppButton  
                                         title={"Continue"} 
