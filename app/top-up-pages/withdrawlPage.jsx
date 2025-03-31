@@ -98,7 +98,7 @@ export default function WithdrawlPage() {
             </View>
 
             <View style={[{width:(335/375)*responsiveWidth , height:(48/812)*responsiveHeight , ...style.ButtonCOntainer}]}>
-                <TouchableOpacity>
+            <TouchableOpacity>
                     <AppButton 
                         style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.button}]}
                         textStyle={[{color : "#ffffff"}]}

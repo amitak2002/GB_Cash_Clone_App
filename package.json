@@ -15,6 +15,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@codsod/react-native-otp-input": "^1.0.7",
     "@expo-google-fonts/poppins": "^0.2.3",
     "@expo-google-fonts/urbanist": "^0.2.3",
     "@expo/vector-icons": "^14.0.4",
