@@ -1,17 +1,10 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
 
 export default function index() {
   return (
-    <View style={style.container}>
-      <Text></Text>
+    <View>
+      <Text>index</Text>
     </View>
   )
 }
-
-const style = StyleSheet.create({
-    container : {
-      flex:1,
-      
-    }
-})

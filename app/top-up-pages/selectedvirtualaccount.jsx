@@ -6,7 +6,7 @@ import ATM from "../../components/BankingComponents/ATM.jsx"
 import MBanking from "../../components/BankingComponents/MBanking.jsx"
 import IBankig from "../../components/BankingComponents/IBankig.jsx"
 import AppButton from '../../components/AppButton.jsx'
-
+import LoaderScreen from '../../components/Loader.jsx'
 
 
 
@@ -14,6 +14,14 @@ import AppButton from '../../components/AppButton.jsx'
 export default function Selectedvirtualaccount() {
 
     const [selectPage , setSelectPage] = useState("ATM")
+    const [loader , setLoader] = useState(true)
+
+    useEffect(() => {
+        const timeOut = setTimeout(() => {
+            setLoader(false)
+        },2000)
+        return () => clearTimeout(timeOut)
+    } , [])
 
     
     const page = (selectPage) => {
@@ -28,11 +36,17 @@ export default function Selectedvirtualaccount() {
                 return <Text>Select an option</Text>;
         }
     }
-        
-    
 
     const {height : responsiveHeight , width : responsiveWidth} = Dimensions.get("window")
     const router = useRouter()
+
+    const handleBankTransferPage = () => {
+        router.push("../sendMoneyServices/banktransfer")
+    }
+
+    if (loader) {
+        return <LoaderScreen />
+    }
 
   return (
     <View style={style.container}>
@@ -107,6 +121,7 @@ export default function Selectedvirtualaccount() {
                         style={[{width : (335/375)*responsiveWidth , height : (50/812)*responsiveHeight , borderRadius : moderateScale(4)}]}
                         textStyle={[{color : "#ffffff"}]}
                         title={"Continue"}
+                        onPress={handleBankTransferPage}
                         
                     />
                 </TouchableOpacity>

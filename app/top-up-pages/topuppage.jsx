@@ -5,10 +5,22 @@ import { scale , moderateScale , verticalScale } from 'react-native-size-matters
 import AppInput from "../../components/AppInput.jsx"
 import TopUpAmountOptions from "../../components/AmountOptions/TopUpAmountOptions.jsx"
 import AppButton from '../../components/AppButton.jsx'
+import LoaderScreen from '../../components/Loader.jsx'
 
 
 
 export default function TopUpPage() {
+
+    
+        const [loader , setLoader] = useState(true)
+    
+        useEffect(() => {
+            const timeOut = setTimeout(() => {
+                setLoader(false)
+            } , 2000)
+            return() => clearTimeout(timeOut)
+        } , [])
+    
 
     const {height : responsiveHeight , width : responsiveWidth} = Dimensions.get("window")
     const router = useRouter()
@@ -27,11 +39,14 @@ export default function TopUpPage() {
         setInputPaisaMethod : (data) => setInputPaisa(data)
     }
 
-    const handleSendPage = () => {
+    const accountVirtualList = () => {
         // top up recharge karne ke baad send krne wale page pr navigate karenge sbse phle bank transfer k page pr navigate karenge uske kaad ssend wale pages pr
-        router.push("../sendMoneyServices/banktransfer")
+        router.push("../top-up-pages/selectedvirtualaccount")
     }
 
+    if (loader) {
+        return <LoaderScreen message={"Please wait.."}/>
+    }
   return (
     <View style={style.container}>
 
@@ -88,7 +103,7 @@ export default function TopUpPage() {
                         style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.button}]}
                         textStyle={[{color : "#ffffff"}]}
                         title={"Continue"}
-                        onPress={handleSendPage}
+                        onPress={accountVirtualList}
                     />
                 </View>
             </TouchableOpacity>

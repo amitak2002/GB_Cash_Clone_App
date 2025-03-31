@@ -1,14 +1,28 @@
 import { View, Text , StyleSheet , Image , TouchableOpacity, Dimensions } from 'react-native'
-import React from 'react'
+import React , { useState , useEffect }from 'react'
 import { useRouter } from 'expo-router'
 import { scale , verticalScale , moderateScale } from 'react-native-size-matters'
 import VirtualAccountsComponent from "../../components/VirtualAccountsCompoonent/VirtualAccountsComponent.jsx"
+import LoaderScreen from '../../components/Loader.jsx'
 
 
 export default function VirtualAccount() {
 
+    const [loader , setLoader] = useState(true)
+
+    useEffect(() => {
+        const timeOut = setTimeout(() => {
+            setLoader(false)
+        } , 2000)
+        return() => clearTimeout(timeOut)
+    } , [])
+
     const {height : responsiveHeight , width : responsiveWidth} = Dimensions.get("window")
     const router = useRouter()
+
+    if (loader) {
+        return <LoaderScreen message={"Please wait.."}/>
+    }
 
 
   return (
@@ -39,7 +53,7 @@ export default function VirtualAccount() {
         </View>
 
         <View style={[{width : (337/375)*responsiveWidth , height : (495/812)*responsiveHeight , ...style.virtualBankList}]}>
-            <VirtualAccountsComponent />
+            <VirtualAccountsComponent onPress={() => router.push("../top-up-pages/topuppage")}/>
         </View>
     </View>
   )

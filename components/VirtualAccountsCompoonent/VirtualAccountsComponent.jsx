@@ -4,7 +4,7 @@ import { virtualAccountsObject } from '../../utils/VirtualAccountObject/VirtualA
 import { moderateScale , scale , verticalScale} from 'react-native-size-matters'
 
 
-export default function VirtualAccountsComponent() {
+export default function VirtualAccountsComponent({onPress}) {
 
     const {height : responsiveHeight , width : responsiveWidth} = Dimensions.get("window")
 
@@ -15,7 +15,7 @@ export default function VirtualAccountsComponent() {
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.id.toString()}                     
           renderItem={({item}) => (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onPress}>
               <View style={[{width : (337/375)*responsiveWidth, height : (80/812)*responsiveHeight, ...style.FlatListMainView}]}>
 
                 <View style={[{width:(36/375)*responsiveWidth, height:(36/812)*responsiveHeight }]}>

@@ -210,7 +210,7 @@ export default function Layout() {
                             setAdd={() => setAddState(false)}
                             bankTransfer={() => {
                                 setAddState(false);
-                                router.push("../top-up-pages/topuppage");
+                                router.push("../top-up-pages/virtualAccountlist");
                             }}
                             creditCardService={() => {
                                 setAddState(false);

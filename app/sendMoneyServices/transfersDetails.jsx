@@ -1,6 +1,6 @@
 import { View, Text , StyleSheet , Dimensions , Image , TouchableOpacity} from 'react-native'
 import React , {useState , useEffect} from 'react'
-import LoaderScreen from '../../components/Loader'
+import LoaderScreen from '../../components/Loader.jsx'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { scale , verticalScale , moderateScale } from 'react-native-size-matters'
 
@@ -39,7 +39,7 @@ export default function transfersDetails() {
                 />
             </TouchableOpacity>
 
-            <View style={[style.sendTextContainer , {width : (145/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
+            <View style={[style.sendTextContainer , {width : (180/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
                 <Text style={style.sendText}>Transfer Details</Text>
             </View>
         </View>
