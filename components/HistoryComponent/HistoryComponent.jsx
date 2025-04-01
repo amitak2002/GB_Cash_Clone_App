@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet , Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet , Image, TouchableOpacity ,Dimensions } from 'react-native';
 import React from 'react';
 import { scale , verticalScale , moderateScale } from 'react-native-size-matters';
 
@@ -11,12 +11,14 @@ export default function HistoryComponent({onPress}) {
     { transaction_id: "SN10-081212179832", amount: 99, time: "6:30 PM", date: "Jan 26, 2025" },
   ];
 
+  const { height: responsiveHeight, width: responsiveWidth } = Dimensions.get("window");
+
   return (
     <View style={styles.container}>
         <View style={styles.header}>
             <Text style={styles.headerRightText}>History</Text>
             <TouchableOpacity onPress={onPress}>
-                <Image source={require("../assets/images/seeall.png")}/>
+                <Image source={require("../../assets/images/seeall.png")}/>
             </TouchableOpacity>
         </View>
         <FlatList
@@ -25,11 +27,11 @@ export default function HistoryComponent({onPress}) {
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.transaction_id}
             renderItem={({ item }) => (
-            <View style={styles.mainDiv}>
-                <View style={styles.image}>
-                    <Image source={require("../assets/images/icon.png")} style={{width:'90%' , height : '100%'}}/>
+            <View style={[{width : (350/375)*responsiveWidth , height : (50/812)*responsiveHeight , ...styles.mainDiv}]}>
+                <View style={[{width:(48/357)*responsiveWidth , height:(48/812)*responsiveHeight ,...styles.image}]}>
+                    <Image source={require("../../assets/images/icon.png")} style={{width:(48/357)*responsiveWidth , height:(48/812)*responsiveHeight}}/>
                 </View>
-                <View style={styles.middle}>
+                <View style={[{...styles.middle , width : (160/375)*responsiveWidth , height:(42/812)*responsiveHeight}]}>
                     <Text style={styles.transaction_id}>{item.transaction_id}</Text>
                     <View style={styles.Time}>
                         <Text style={styles.time1}>{item.time}</Text>
@@ -74,8 +76,6 @@ const styles = StyleSheet.create({
     lineHeight : verticalScale(28)
   },
   mainDiv: {
-    width : scale(335),
-    height: verticalScale(48),
     flexDirection: 'row',
     justifyContent:'flex-start',
     marginTop: verticalScale(12),
@@ -88,13 +88,10 @@ const styles = StyleSheet.create({
     
   },
   image : {
-    width : scale(48),
-    height : verticalScale(45),
     borderRadius : moderateScale(50),
     backgroundColor:"#F7F7F7"
   },
   middle : {
-    width : scale(140),height : verticalScale(41),
     justifyContent:'center',
     alignItems:'center',
     marginLeft : scale(10)

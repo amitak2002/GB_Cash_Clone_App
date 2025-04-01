@@ -1,20 +1,24 @@
-import {View,Text,Image, StyleSheet, Modal, TouchableOpacity,ImageBackground , TouchableWithoutFeedback  } from "react-native";
+import {View,Text,Image, StyleSheet, Modal, TouchableOpacity,ImageBackground , TouchableWithoutFeedback , Dimensions  } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { verticalScale,scale,  moderateScale, moderateVerticalScale,} from "react-native-size-matters";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import OptionContainer from "../../components/OptionComponent.jsx";
-import HistoryContainer from "../../components/HistoryComponent.jsx";
+import HistoryContainer from "../../components/HistoryComponent/HistoryComponent.jsx";
 import Topup from "../../components/TopUp/Topup.jsx";
 import Mobile from "../../components/serviceComponents/Mobile.jsx";
 import Electricity from "../../components/serviceComponents/Electricity.jsx";
 import LoaderScreen from "../../components/Loader.jsx";
 import Toast from 'react-native-toast-message';
 
+
+
 import { getData } from "@/utils/LocalStoragemethods/LocalStorage.js";
 import {fonts , fontImages} from "../../utils/Fonts/Fonts.js"
 
 export default function Layout() {
+
+    const {height : responsiveHeight , width : responsiveWidth } = Dimensions.get("window")
 
     const [loader , setLoader] = useState(true)
     const [userData , setUserData] = useState({}) //local storagedata of user
@@ -171,7 +175,7 @@ export default function Layout() {
                         </View>
 
                         <View style={style.historyContainer}>
-                            <HistoryContainer />
+                            <HistoryContainer style={[{width : "100%" , height:"100%" }]}/>
                         </View>
                     </>
                 )}
