@@ -61,7 +61,7 @@ export default function TopUpPage() {
                 </TouchableOpacity>
 
                 <View style={[style.sendTextContainer , {width : (145/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
-                    <Text style={style.sendText}>Send</Text>
+                    <Text style={style.sendText}>Top up</Text>
                 </View>
             </View>
 

@@ -1,21 +1,28 @@
-import {  StyleSheet } from 'react-native'
+import {  StyleSheet , Dimensions } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import { Ionicons } from "@expo/vector-icons";
 
 
 export default function _layout() {
+
+  const {height : responsiveHeight , width : responsiveWidth} = Dimensions.get("window")
+
   return (  
     <Tabs screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarStyle: style.tabContainer,
+        tabBarStyle: {
+          width: (375 / 375) * responsiveWidth,
+          height:(70 / 812) * responsiveHeight, // Ensures min height
+          paddingBottom: 10, 
+          ...style.tabContainer
+        },
         tabBarActiveTintColor: '#1D1E25',
         tabBarInactiveTintColor: '#0048A6',
         tabBarShowLabel: false,
         tabBarLabelStyle: { 
             fontWeight: "600", 
             textDecorationLine: "underline",
-               
         },
         tabBarIcon: ({ color, focused, size }) => {
           let iconName;

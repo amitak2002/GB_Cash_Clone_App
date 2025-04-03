@@ -1,5 +1,15 @@
 import * as Yup from 'yup';
 
+export const userNameandPhoneNumberSchema = Yup.object({
+    userName : Yup.string()
+    .min(3 , "Atleast 3 character")
+    .max(20 , "At max 20 Character")
+    .required("Name must required"),
+    phoneNumber : Yup.string()
+                    .length(10 , "phone num must of container 10 digits")
+                    .required("Phone number is required")
+})
+
 export const userMobileSchema = Yup.object({
     phoneNumber : Yup.string().length(10 , "Phone Number Must Be of 10 Digit").required("Phone Number is Required")
 })

@@ -6,6 +6,10 @@ import { useRouter , useLocalSearchParams} from 'expo-router'
 import AppInput from '../../components/AppInput.jsx'
 import RecentPayees from "../../components/RecentPayees/RecentPayees.jsx"
 import AppButton from '../../components/AppButton.jsx'
+import { Formik } from 'formik'
+
+// used for validation (userSchema)
+import {userNameandPhoneNumberSchema} from "../../validationYUP/authValidation.js"
 
 
 export default function sendAmountPage2() {
@@ -19,7 +23,7 @@ export default function sendAmountPage2() {
     } , [])
 
     const {contactName , email} = useLocalSearchParams()
-    console.log("name and email is : ",contactName , email)
+   
 
     const {width : responsiveWidth , height : responsiveHeight } = Dimensions.get("window")
     const router = useRouter()
@@ -27,29 +31,55 @@ export default function sendAmountPage2() {
     const [name , setName] = useState("")
     const [number , setNumber] = useState("")
 
-    const handleTransferPage = () => {
-        router.push({pathname : "../sendMoneyServices/transfersDetails" , params : {contactName : contactName , email : email}})
-    }
+    const handleTransferPage = (values) => {
+        if (!values) return; // Pehle check karo ki formData null hai ya nahi
+    
+        console.log("formData at handle next page: ", values);
+        setName(values.userName)
+        setNumber(values.phoneNumber)
+       
+    };
+    
+    useEffect(() => {
+        if (name && number) { 
+            console.log("Updated Name & Number:", name, number);
+            setTimeout(() => {
+                router.push({
+                    pathname: "../sendMoneyServices/transfersDetails",
+                    params: { contactName, email }
+                });
+            }, 500); 
+        }
+    } , [name , number])
 
     if (loader) {
         return <LoaderScreen message={"Please Wait.."}/>
     }
 
   return (
-    <View style={style.container}>
+    <Formik
+        initialValues={{userName : "" , phoneNumber : ""}}
+        validationSchema={userNameandPhoneNumberSchema}
+        onSubmit={(values) => {
+            console.log("values is : ",values)
+           handleTransferPage(values)
+        }}
+    >
+        {({values , touched , errors , handleChange , handleSubmit}) => (
+            <View style={style.container}>
         
-        <View style={[style.sendContainer ]}>
-            {/*press karne pr back ho jayenge accountadd wale page pr */}
-            <TouchableOpacity onPress={() => router.back()}>
-                <Image source={require('../../assets/images/leftArrow.png')}
-                    style={[style.leftArrow , {width : (24/375)*responsiveWidth , height : (24/812)*responsiveHeight}]}
-                />
-            </TouchableOpacity>
+            <View style={[style.sendContainer ]}>
+                {/*press karne pr back ho jayenge accountadd wale page pr */}
+                <TouchableOpacity onPress={() => router.back()}>
+                    <Image source={require('../../assets/images/leftArrow.png')}
+                        style={[style.leftArrow , {width : (24/375)*responsiveWidth , height : (24/812)*responsiveHeight}]}
+                    />
+                </TouchableOpacity>
 
-            <View style={[style.sendTextContainer , {width : (145/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
-                <Text style={style.sendText}>Send</Text>
+                <View style={[style.sendTextContainer , {width : (145/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
+                    <Text style={style.sendText}>Send</Text>
+                </View>
             </View>
-        </View>
 
         <View style={[{width : (375/375)*responsiveWidth , height : (578/812)*responsiveHeight , ...style.SecondContainer}]}>
             <View style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.InputContainer}]}>
@@ -83,9 +113,12 @@ export default function sendAmountPage2() {
                         <AppInput 
                             style={[{width : (180/375)*responsiveWidth , height : (25/812)*responsiveHeight , ...style.inputUser1}]}
                             placeholder={"Type Your Name"}
-                            value={name}
-                            onChangeText={setName}
+                            value={values.userName}
+                            onChangeText={handleChange('userName')}
                         />
+                        {errors.userName && touched.userName && (
+                            <Text style={{color : '#e70e20' , marginTop:verticalScale(16) , textAlign:'center' , fontStyle:"Urbanist" , fontSize:moderateScale(14)}}>{errors.userName}</Text>
+                        )}
                     </View>
                 </View>
                 <View style={[{width : (335/375)*responsiveWidth , height : (60/812)*responsiveHeight , ...style.secondInputContainer}]}>
@@ -98,10 +131,13 @@ export default function sendAmountPage2() {
                         <AppInput 
                             style={[{width : (180/375)*responsiveWidth , height : (25/812)*responsiveHeight , ...style.inputUser1}]}
                             placeholder={"Type your number"}
-                            value={number}
-                            onChangeText={setNumber}
+                            value={values.phoneNumber}
+                            onChangeText={handleChange('phoneNumber')}
                             keyboardType='numeric'
                         />
+                        {errors.phoneNumber && touched.phoneNumber && (
+                            <Text style={{color : '#ff0000' , marginTop:verticalScale(16) , textAlign:'center' , fontStyle:"Urbanist" , fontSize:moderateScale(14)}}>{errors.phoneNumber}</Text>
+                        )}
                     </View>
                 </View>
 
@@ -114,18 +150,20 @@ export default function sendAmountPage2() {
             </View>
         </View>
 
-        <View style={[{width : "100%" , height : (92/812)*responsiveWidth , ... style.continueContainer}]}>
-            <View style={[style.modalButton , {width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight}]}>
-                <AppButton  
-                    title={"Continue"} 
-                    style={[style.modalButton]} 
-                    textStyle={{fontWeight : "700" , fontStyle : "Urbanist" , fontSize : moderateScale(14) , color : "#FFFFFF"}}
-                    onPress={handleTransferPage}
-                />
-            </View>
-        </View>
+                <View style={[{width : "100%" , height : (92/812)*responsiveWidth , ... style.continueContainer}]}>
+                    <View style={[style.modalButton , {width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight}]}>
+                        <AppButton  
+                            title={"Continue"} 
+                            style={[style.modalButton]} 
+                            textStyle={{fontWeight : "700" , fontStyle : "Urbanist" , fontSize : moderateScale(14) , color : "#FFFFFF"}}
+                            onPress={handleSubmit}
+                         />
+                    </View>
+                </View>
       
-    </View>
+            </View>
+        )}
+    </Formik>
   )
 }
 
