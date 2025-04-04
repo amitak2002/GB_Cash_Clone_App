@@ -12,7 +12,7 @@ export default function RecentPayees() {
   return (
     <View style={style.container}>
         <View style={[{width : (375/375)*responsiveWidth , height : (239/812)*responsiveHeight}]}>
-            <View style={[{width : (110/375)*responsiveWidth, height : (25/812)*responsiveHeight , ...style.recentTextContainer}]}>
+            <View style={[{width : (180/375)*responsiveWidth, height : (25/812)*responsiveHeight , ...style.recentTextContainer}]}>
                 <Text style={style.recentText}>Recent Payees</Text>
             </View>
 

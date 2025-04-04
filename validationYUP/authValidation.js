@@ -6,7 +6,7 @@ export const userNameandPhoneNumberSchema = Yup.object({
     .max(20 , "At max 20 Character")
     .required("Name must required"),
     phoneNumber : Yup.string()
-                    .length(10 , "phone num must of container 10 digits")
+                    .length(10 , "phone num must contain 10 digits")
                     .required("Phone number is required")
 })
 

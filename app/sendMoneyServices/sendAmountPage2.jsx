@@ -1,4 +1,4 @@
-import { View, Text , StyleSheet , TouchableOpacity, Dimensions , Image } from 'react-native'
+import { View, Text , StyleSheet , TouchableOpacity, Dimensions , Image, KeyboardAvoidingView, Platform , ScrollView} from 'react-native'
 import React , {useEffect , useState} from 'react'
 import LoaderScreen from '../../components/Loader.jsx'
 import { scale , verticalScale , moderateScale } from 'react-native-size-matters'
@@ -10,6 +10,7 @@ import { Formik } from 'formik'
 
 // used for validation (userSchema)
 import {userNameandPhoneNumberSchema} from "../../validationYUP/authValidation.js"
+
 
 
 export default function sendAmountPage2() {
@@ -57,114 +58,128 @@ export default function sendAmountPage2() {
     }
 
   return (
-    <Formik
-        initialValues={{userName : "" , phoneNumber : ""}}
-        validationSchema={userNameandPhoneNumberSchema}
-        onSubmit={(values) => {
-            console.log("values is : ",values)
-           handleTransferPage(values)
-        }}
-    >
-        {({values , touched , errors , handleChange , handleSubmit}) => (
-            <View style={style.container}>
-        
-            <View style={[style.sendContainer ]}>
-                {/*press karne pr back ho jayenge accountadd wale page pr */}
-                <TouchableOpacity onPress={() => router.back()}>
-                    <Image source={require('../../assets/images/leftArrow.png')}
-                        style={[style.leftArrow , {width : (24/375)*responsiveWidth , height : (24/812)*responsiveHeight}]}
-                    />
-                </TouchableOpacity>
+    
+        <KeyboardAvoidingView 
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+        >
+            <Formik
+                initialValues={{userName : "" , phoneNumber : ""}}
+                validationSchema={userNameandPhoneNumberSchema}
+                onSubmit={(values) => {
+                    console.log("values is : ",values)
+                handleTransferPage(values)
+                }}
+                >
+                {({values , touched , errors , handleChange , handleSubmit}) => (
+                 <View style={style.container}>
+                    <ScrollView 
+                        contentContainerStyle={{ flexGrow: 1, paddingBottom: (60/812)*responsiveHeight }}
+                         keyboardShouldPersistTaps="handled"
+                    >
 
-                <View style={[style.sendTextContainer , {width : (145/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
-                    <Text style={style.sendText}>Send</Text>
-                </View>
-            </View>
+                    <View style={[style.sendContainer ]}>
+                        {/*press karne pr back ho jayenge accountadd wale page pr */}
+                        <TouchableOpacity onPress={() => router.back()}>
+                            <Image source={require('../../assets/images/leftArrow.png')}
+                                style={[style.leftArrow , {width : (24/375)*responsiveWidth , height : (24/812)*responsiveHeight}]}
+                            />
+                        </TouchableOpacity>
 
-        <View style={[{width : (375/375)*responsiveWidth , height : (578/812)*responsiveHeight , ...style.SecondContainer}]}>
-            <View style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.InputContainer}]}>
-                <Image 
-                    source={require("../../assets/images/search.png")}
-                    style={[{width : (24/375)*responsiveWidth , height : (24/812)*responsiveHeight , ...style.image}]}
-                />
+                        <View style={[style.sendTextContainer , {width : (145/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
+                            <Text style={style.sendText}>Send</Text>
+                        </View>
+                    </View>
 
-                <View style={[{width : (125/375)*responsiveWidth , height : (22/812)*responsiveHeight , ...style.InputCon}] }>
-                    <AppInput style={[{width : (125/375)*responsiveWidth , height : (22/812)*responsiveHeight , ...style.Input }]}
-                        placeholder={"Search Contact"}
-                        value={"name"}
-                    />
-                </View>
-            </View>
-
-            <View style={[{width : (375/375)*responsiveWidth , height : (239/812)*responsiveHeight , ...style.recentPayeesContainer}]}>
-                <RecentPayees />
-            </View>
-
-            <View style={[{width : (375/375)*responsiveWidth , height : (2/812)*responsiveHeight , ...style.stripe}]}></View>
-
-            <View style={[{width : (335/375)*responsiveWidth , height : (256/812)*responsiveHeight , ...style.InputContainerMain}]}>
-                <View style={[{width : (335/375)*responsiveWidth , height : (60/812)*responsiveHeight , ...style.firstInputContainer}]}>
-                    <Image 
-                        source={require("../../assets/images/user.png")}
-                        style={[{width : (20/375)*responsiveWidth , height : (20/812)*responsiveHeight , ...style.imageUser}]}
-                    />
-
-                    <View style={[{width : (180/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
-                        <AppInput 
-                            style={[{width : (180/375)*responsiveWidth , height : (25/812)*responsiveHeight , ...style.inputUser1}]}
-                            placeholder={"Type Your Name"}
-                            value={values.userName}
-                            onChangeText={handleChange('userName')}
+                <View style={[{width : (375/375)*responsiveWidth , height : (600/812)*responsiveHeight , ...style.SecondContainer}]}>
+                    <View style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.InputContainer}]}>
+                        <Image 
+                            source={require("../../assets/images/search.png")}
+                            style={[{width : (24/375)*responsiveWidth , height : (24/812)*responsiveHeight , ...style.image}]}
                         />
-                        {errors.userName && touched.userName && (
-                            <Text style={{color : '#e70e20' , marginTop:verticalScale(16) , textAlign:'center' , fontStyle:"Urbanist" , fontSize:moderateScale(14)}}>{errors.userName}</Text>
-                        )}
+
+                        <View style={[{width : (125/375)*responsiveWidth , height : (22/812)*responsiveHeight , ...style.InputCon}] }>
+                            <AppInput style={[{width : (125/375)*responsiveWidth , height : (22/812)*responsiveHeight , ...style.Input }]}
+                                placeholder={"Search Contact"}
+                                value={"name"}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={[{width : (375/375)*responsiveWidth , height : (220/812)*responsiveHeight , ...style.recentPayeesContainer}]}>
+                        <RecentPayees />
+                    </View>
+
+                    <View style={[{width : (375/375)*responsiveWidth , height : (2/812)*responsiveHeight , ...style.stripe}]}></View>
+
+                    <View style={[{width : (335/375)*responsiveWidth , height : (240/812)*responsiveHeight , ...style.InputContainerMain }]}>
+                        <View style={[{width : (335/375)*responsiveWidth , height : (50/812)*responsiveHeight , ...style.firstInputContainer}]}>
+                            <Image 
+                                source={require("../../assets/images/user.png")}
+                                style={[{width : (20/375)*responsiveWidth , height : (20/812)*responsiveHeight , ...style.imageUser}]}
+                            />
+
+                            <View style={[{width : (180/375)*responsiveWidth , height : (30/812)*responsiveHeight}]}>
+                                <AppInput 
+                                    style={[{width : (180/375)*responsiveWidth , height : (25/812)*responsiveHeight , ...style.inputUser1}]}
+                                    placeholder={"Type Your Name"}
+                                    value={values.userName}
+                                    onChangeText={handleChange('userName')}
+                                />
+                                {errors.userName && touched.userName && (
+                                    <Text style={{color : '#e70e20' ,   textAlign:'center' , fontStyle:"Urbanist" , fontSize:moderateScale(14) ,marginTop : verticalScale(10) , textAlign:"left"}}>{errors.userName}</Text>
+                                )}
+                            </View>
+                        </View>
+
+                        <View style={[{width : (335/375)*responsiveWidth , height : (50/812)*responsiveHeight , ...style.secondInputContainer}]}>
+
+                            <Image 
+                                source={require("../../assets/images/India.png")}
+                                style={[{width : (20/375)*responsiveWidth , height : (20/812)*responsiveHeight , ...style.imageUser}]}
+                            />
+                            <View style={[{width : (250/375)*responsiveWidth , height : (30/812)*responsiveHeight}]}>
+                                <AppInput 
+                                    style={[{width : (250/375)*responsiveWidth , height : (25/812)*responsiveHeight , ...style.inputUser1}]}
+                                    placeholder={"Type your number"}
+                                    value={values.phoneNumber}
+                                    onChangeText={handleChange('phoneNumber')}
+                                    keyboardType='numeric'
+                                />
+                                {errors.phoneNumber && touched.phoneNumber && (
+                                    <Text style={{color : '#ff0000' ,  textAlign:'center' , fontStyle:"Urbanist" , fontSize:moderateScale(14) ,  marginTop : verticalScale(10) , textAlign : "left"}}>{errors.phoneNumber}</Text>
+                                )}
+                            </View>
+                        </View>
+
+                        <View style={[{width : (335/375)*responsiveWidth , height : (70/812)*responsiveHeight , ...style.thirdInputContainer}]}>
+                            <AppInput 
+                                style={[{width : "100%" , height : "50" , ...style.inputUser1}]}
+                                placeholder={"Type notes"}
+                            />
+                        </View>
                     </View>
                 </View>
-                <View style={[{width : (335/375)*responsiveWidth , height : (60/812)*responsiveHeight , ...style.secondInputContainer}]}>
-
-                    <Image 
-                        source={require("../../assets/images/India.png")}
-                        style={[{width : (20/375)*responsiveWidth , height : (20/812)*responsiveHeight , ...style.imageUser}]}
-                    />
-                    <View style={[{width : (180/375)*responsiveWidth , height : (25/812)*responsiveHeight}]}>
-                        <AppInput 
-                            style={[{width : (180/375)*responsiveWidth , height : (25/812)*responsiveHeight , ...style.inputUser1}]}
-                            placeholder={"Type your number"}
-                            value={values.phoneNumber}
-                            onChangeText={handleChange('phoneNumber')}
-                            keyboardType='numeric'
-                        />
-                        {errors.phoneNumber && touched.phoneNumber && (
-                            <Text style={{color : '#ff0000' , marginTop:verticalScale(16) , textAlign:'center' , fontStyle:"Urbanist" , fontSize:moderateScale(14)}}>{errors.phoneNumber}</Text>
-                        )}
-                    </View>
-                </View>
-
-                <View style={[{width : (335/375)*responsiveWidth , height : (80/812)*responsiveHeight , ...style.thirdInputContainer}]}>
-                    <AppInput 
-                        style={[{width : "100%" , height : "50" , ...style.inputUser1}]}
-                        placeholder={"Type notes"}
-                    />
-                </View>
-            </View>
-        </View>
-
-                <View style={[{width : "100%" , height : (92/812)*responsiveWidth , ... style.continueContainer}]}>
+                <View style={[{width : (375/375)*responsiveWidth , height : (180/812)*responsiveWidth , ... style.continueContainer}]}>
                     <View style={[style.modalButton , {width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight}]}>
                         <AppButton  
                             title={"Continue"} 
                             style={[style.modalButton]} 
                             textStyle={{fontWeight : "700" , fontStyle : "Urbanist" , fontSize : moderateScale(14) , color : "#FFFFFF"}}
                             onPress={handleSubmit}
-                         />
+                        />
                     </View>
                 </View>
-      
-            </View>
-        )}
-    </Formik>
-  )
+                    </ScrollView>
+                    
+
+                 </View>
+                 )}
+            </Formik>
+        </KeyboardAvoidingView>
+
+     )
 }
 
 const style = StyleSheet.create({
@@ -238,7 +253,9 @@ const style = StyleSheet.create({
        alignItems:"center",
        justifyContent:"flex-start",
        borderBottomColor:"#E9ECF2",
-       borderBottomWidth:moderateScale(1)
+       borderBottomWidth:moderateScale(1),
+       marginbottom : verticalScale(10),
+      
     },
     imageUser : {
         marginLeft : scale(16)
@@ -251,15 +268,17 @@ const style = StyleSheet.create({
         marginLeft : scale(10),
     },
     secondInputContainer : {
+       
         marginTop : verticalScale(20),
         flexDirection:"row",
        alignItems:"center",
        justifyContent:"flex-start",
        borderBottomColor:"#E9ECF2",
-       borderBottomWidth:moderateScale(1)
+       borderBottomWidth:moderateScale(1),
+       marginbottom : verticalScale(10)
     },
     thirdInputContainer : {
-        marginTop : verticalScale(20),
+        marginTop : verticalScale(5),
         alignItems:"center",
         justifyContent:"center",
         borderBottomColor:"#E9ECF2",
@@ -269,9 +288,7 @@ const style = StyleSheet.create({
     
     continueContainer : {
         alignItems : "center",
-        justifyContent : "cetner",
-        
-        marginTop : verticalScale(40),
+
     },
     modalButton : {
         backgroundColor : "#000000",
@@ -281,7 +298,7 @@ const style = StyleSheet.create({
        fontWeight:"700",
        fontStyle:"Urbanist",
        borderRadius : moderateScale(4),
-       marginTop : verticalScale(12),
+
        alignItems : "center",
        justifyContent:"center"
    },
