@@ -4,26 +4,34 @@ import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent
 import { scale , verticalScale , moderateScale } from 'react-native-size-matters'
 import { FontAwesome } from '@expo/vector-icons'
 import LoaderScreen from '../../../components/Loader'
-
+import { useRouter } from 'expo-router'
 
 
 const {height : responsiveHeight , width : responsiveWidth} = Dimensions .get("window")
 
 export default function profile() {
 
-  const pages = [{title : "Invite Friends" , name : "user-plus"} , 
-                  {title : "Profile Details" , name : "users"},
-                  {title : "My Cards" , name : "cards"},
-                  {title : "Verification" , name : "verification"},
-                  {title : "FAQ's" , name : "FAQ"},
-                  {title : "Terms & Conditions" , name : "terms-conditions"},
-                  {title : "Privacy & Policy" , name : "privacy"},
-                  {title : "Help" , name : "help"},
-                  {title : "About Us" , name : "aboutus"},
-                  {title : "LogOut" , name : "logout"}
-  ]
+  const router = useRouter()
 
-
+  const pages = [
+    { title: "Invite Friends", name: "user-plus", path: "invitefriends" },
+    { title: "Profile Details", name: "user", path: "profile" },
+    { title: "My Cards", name: "credit-card", path: "mycards" },
+    { title: "Verification", name: "check-circle", path: "verification" },
+    { title: "FAQ's", name: "question-circle", path: "faqs" },
+    { title: "Terms & Conditions", name: "file-text", path: "terms&conditions" },
+    { title: "Privacy & Policy", name: "shield", path: "privacypolicy" },
+    { title: "Help", name: "life-ring", path: "help" },
+    { title: "About Us", name: "info-circle", path: "aboutus" },
+    { title: "LogOut", name: "sign-out", path: "logout" },
+  ];
+ 
+  
+  const methods = {
+    
+    //renderPagesMethod : (path) => setRenderPages(path), to check which page is active
+    renderToNextPagesMethod : (path) => (router.push(`../../profile-pages/${path}`))
+  }
 
   const [option , setOption] = useState(false)
   const handleOptionContainer = () => {
@@ -39,32 +47,28 @@ export default function profile() {
 
         {/**options at profile page */}
         <View style={[{width : (375/375)*responsiveWidth , height : (670/812)*responsiveHeight , ...style.optionContainer}]}>
-            <FlatList 
-              data={pages}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item , index) => index.toString()}
-              renderItem={({item , index}) => (
-                <TouchableOpacity>
-                  <View style={[{width : (375/375)*responsiveWidth , height : (70/812)*responsiveHeight , ...style.FlatListContainer}]}>
-                    <View style={[{width : (48/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.fontDivFlatList}]}>
-                      <FontAwesome />
-                    </View>
+        <FlatList
+            data={pages}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => methods.renderToNextPagesMethod(item.path)}>
+                <View style={[{ width: (375 / 375) * responsiveWidth, height: (70 / 812) * responsiveHeight, ...style.FlatListContainer }]}>
+                  <View style={[{ width: (48 / 375) * responsiveWidth, height: (48 / 812) * responsiveHeight, ...style.fontDivFlatList }]}>
+                    <FontAwesome name={item.name} size={24} color="#000" />
+                  </View>
 
-                    <View style={[{width : (180/375)*responsiveWidth, height: (70/812)*responsiveHeight , ...style.flatListTextCOntainer}]}>
-                      <Text style={style.flatListText1}>{item.title}</Text>
-                      <Text style={style.flatListText2}>{item.name}</Text>
-                    </View>
+                  <View style={[{ width: (180 / 375) * responsiveWidth, height: (70 / 812) * responsiveHeight, ...style.flatListTextCOntainer }]}>
+                    <Text style={style.flatListText1}>{item.title}</Text>
+                  </View>
 
-                    <View style={style.nextContainer}>
-                      <Image 
-                        source={require("../../../assets/images/next.png")}
-                        
-                      />
-                    </View>
+                  <View style={style.nextContainer}>
+                    <Image source={require("../../../assets/images/next.png")} />
+                  </View>
                 </View>
-                </TouchableOpacity>
-              )}
-            />
+              </TouchableOpacity>
+            )}
+          />
         </View>
 
         {/**modal for option or menu bar */}
@@ -128,12 +132,15 @@ const style = StyleSheet.create({
     justifyContent:"flex-start",
     alignItems:"center",
     borderBottomWidth : moderateScale(1),
-    borderBottomColor : "#E5E7EB"
+    borderBottomColor : "#E5E7EB",
+
   },
   fontDivFlatList : {
     backgroundColor:"#F7F7F7",
     borderRadius : moderateScale(50),
-    marginLeft : scale(12)
+    marginLeft : scale(12),
+    alignItems:"center",
+    justifyContent:"center"
   },
   flatListTextCOntainer:{
     

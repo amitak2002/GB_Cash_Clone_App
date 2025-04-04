@@ -14,7 +14,7 @@ export default function HeaderComponent({onPress}) {
     const fetchUserAsyncData =  useCallback(async () => {
             const data = await getData("user")
             console.log("data at headerComponentPage : ",data)
-            setUserName(data.care_of)
+            setUserName(data?.care_of || "Admin")
     } , [])
     useEffect(() => {
         fetchUserAsyncData();

@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Redirect } from 'expo-router';
-import { getData } from '@/utils/LocalStoragemethods/LocalStorage';
+import { getData } from '@/utils/LocalStoragemethods/LocalStorage.js';
  
 export default function Index() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuthentication =  () => {
+    const checkAuthentication = async () => {
       try {
-        const localStorageData =  getData("user")
-        localStorageData.then((data) => {
-          console.log("local storage data at entry page : ",data)
-          if (data != undefined) {
-            setIsAuthenticated(true)
-          }
-        }) 
-        localStorageData.catch((error) => {
-          console.log("error is at entry page : ",error)
-        })
+        const localStorageData = await  getData("user")
+        console.log("data at index.js entry page is : ",localStorageData)
+        if (localStorageData.name && localStorageData) {
+          setIsAuthenticated(true)
+        }
         setLoading(false)
       } 
       catch (error) {
@@ -47,6 +42,7 @@ export default function Index() {
 
   return (
     <Redirect href={isAuthenticated ? '/end-user' : '/(routes)/onboarding'} />
+   
     );
 }
 
