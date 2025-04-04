@@ -9,9 +9,15 @@ import { useRouter } from 'expo-router';
 
 export default function Otpverification() {
 
+    const router = useRouter()
+
     const {height : responsiveHeight , width : responsiveWidth} = Dimensions.get("window")
     const [otp, setOTP] = useState("");
     console.log("otp is : ",otp)
+
+    const handleWithSucessPage = () => {
+        router.push("../top-up-pages/withdrawlsucess")
+    }
 
   return (
     <View style={style.container}>
@@ -68,6 +74,7 @@ export default function Otpverification() {
                     style={[{width:(335/375)*responsiveWidth, height:(48/812)*responsiveHeight , ...style.button}]}
                     textStyle={[{color : "#ffffff"}]}
                     title={"Verify Withdraw"}
+                    onPress={handleWithSucessPage}
                 />
             </View>
         </View>

@@ -41,7 +41,7 @@ export default function Selectedvirtualaccount() {
     const router = useRouter()
 
     const handleBankTransferPage = () => {
-        router.push("../sendMoneyServices/banktransfer")
+        router.push("../top-up-pages/withdrawlPage")
     }
 
     if (loader) {

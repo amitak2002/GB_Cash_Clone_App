@@ -24,6 +24,10 @@ export default function WithdrawlPage() {
         setSelectPaisaMethod : (data) => setSelectPaisa(data)
     }
 
+    const handleOtpVerification = () => {
+        router.push("../top-up-pages/otpverification")
+    }
+
   return (
     <View style={style.container}>
         <View style={[{width : (375/375)*responsiveWidth , height : (205/812)*responsiveHeight , ...style.upperContainer}]}>
@@ -103,7 +107,7 @@ export default function WithdrawlPage() {
                         style={[{width : (335/375)*responsiveWidth , height : (48/812)*responsiveHeight , ...style.button}]}
                         textStyle={[{color : "#ffffff"}]}
                         title={"Continue"}
-                    
+                        onPress={handleOtpVerification}
                     />
                 </TouchableOpacity>
             </View>

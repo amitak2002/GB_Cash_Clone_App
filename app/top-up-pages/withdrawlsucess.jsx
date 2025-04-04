@@ -2,6 +2,7 @@ import { View, StyleSheet, Dimensions, Image,Text ,TouchableOpacity } from 'reac
 import React , {useState , useEffect} from 'react';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import LoaderScreen from '../../components/Loader';
+import { router } from 'expo-router';
 
 const TransactionSucessfull = () => {
     const [loader , setLoader] = useState(true)
@@ -85,7 +86,7 @@ const TransactionSucessfull = () => {
                     </View>
 
                     <View style={[{width:(150/357)*responsiveWidth , height : (20/812)*responsiveHeight  , marginTop:verticalScale(20)}]}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=> router.navigate("../sendMoneyServices/banktransfer")}>
                             <Text style={style.gotohome}>Go To Home Page</Text>
                         </TouchableOpacity>
                     </View>

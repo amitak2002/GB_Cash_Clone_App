@@ -14,7 +14,7 @@ export default function help() {
   return (
     <View style={style.container}>
       <View style={[{width:(375/375)*responsiveWidth, height:(75/812)*responsiveHeight ,  ...style.headerContainer}]}>
-        <View style={[{width:(35/375)*responsiveWidth, height:(35/812)*responsiveHeight , marginLeft : scale(12)}]}>
+        <View style={[{width:(35/375)*responsiveWidth, height:(30/812)*responsiveHeight , marginLeft : scale(12)}]}>
           <TouchableOpacity onPress={() => router.back()}> 
             <Image 
               source={require('../../assets/images/leftArrowWhite.png')}
