@@ -29,7 +29,7 @@ export default function help() {
       </View>
 
       <View style={[{width:(375/375)*responsiveWidth,height : (700/812)*responsiveHeight , ...style.bottomContainer}]}>
-        <View style={[{width : (330/375)*responsiveWidth , height : (500/812)*responsiveHeight , ...style.top}]}>
+        <View style={[{width : (330/375)*responsiveWidth , height : (250/812)*responsiveHeight , ...style.top}]}>
           {/**content baaki hai */}
         </View>
 
@@ -38,7 +38,7 @@ export default function help() {
               <View style={[{width:(330/375)*responsiveWidth, height : (70/812)*responsiveHeight , ...style.whatsapp}]}>
                 <Image 
                   source={require("../../assets/images/whatsapp.png")}
-                  style={[{width:(50/375)*responsiveWidth , height : (50/812)*responsiveHeight , marginLeft : scale(18)}]}
+                  style={[{width:(35/375)*responsiveWidth , height : (35/812)*responsiveHeight , }]}
                 />
                 <Text style={style.whatsappText}>WhatsApp</Text>
                 <Image 
@@ -52,12 +52,12 @@ export default function help() {
               <View style={[{width:(330/375)*responsiveWidth, height : (70/812)*responsiveHeight , ...style.phone}]}>
                 <Image 
                     source={require("../../assets/images/phone-call.png")}
-                    style={[{width:(48/375)*responsiveWidth,height : (48/812)*responsiveHeight , marginLeft : scale(18)}]}
+                    style={[{width:(30/375)*responsiveWidth,height : (30/812)*responsiveHeight}]}
                   />
                 <Text style={style.callText}>Call us</Text>
                 <Image 
                     source={require("../../assets/images/next.png")}
-                  style={[{width:(10/375)*responsiveWidth, height:(10/812)*responsiveHeight , marginLeft : scale(25)}]}
+                  style={[{width:(10/375)*responsiveWidth, height:(10/812)*responsiveHeight}]}
                 />
               </View>
             </TouchableOpacity>
@@ -96,7 +96,8 @@ const style = StyleSheet.create({
     },
     bottomContainer : {
       alignItems:"center",
-      marginTop : verticalScale(10)
+      marginTop : verticalScale(10),
+      
     },
     top : {
        
@@ -114,14 +115,21 @@ const style = StyleSheet.create({
       
       flexDirection:"row",
       alignItems:"center",
-      justifyContent:"flex-start",
+      justifyContent:"space-between",
+      backgroundColor:"#F7F7F7",
+      padding:scale(10),
+      borderRadius : moderateScale(10)
+
       
     },
     phone : {
       
       flexDirection:"row",
       alignItems:"center",
-      justifyContent:"flex-start"
+      justifyContent:"space-between",
+      backgroundColor:"#F7F7F7",
+      padding:scale(10),
+      borderRadius : moderateScale(10)
     },
     whatsappText : {
       color : "#0c6dec",
@@ -130,7 +138,7 @@ const style = StyleSheet.create({
   
       lineHeight: verticalScale(20),
       fontStyle: "Urbanist",
-      marginLeft : scale(10)
+      
     },
     callText : {
       color : "#0c6dec",
@@ -139,6 +147,6 @@ const style = StyleSheet.create({
   
       lineHeight: verticalScale(20),
       fontStyle: "Urbanist",
-      marginLeft : scale(10)
+      
     }
 })

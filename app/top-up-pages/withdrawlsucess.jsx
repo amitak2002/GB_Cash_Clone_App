@@ -16,9 +16,9 @@ const TransactionSucessfull = () => {
     const { height: responsiveHeight, width: responsiveWidth } = Dimensions.get("window");
 
 
-    if (loader) {
-        return <LoaderScreen message={"please wait.."}/>
-    }
+    // if (loader) {
+    //     return <LoaderScreen message={"please wait.."}/>
+    // }
 
     return (
         <View style={style.container}>

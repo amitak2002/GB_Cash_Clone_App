@@ -2,7 +2,7 @@ import { View, Text , StyleSheet ,  TouchableOpacity , Image , Dimensions} from 
 import React , {useState , useEffect} from 'react'
 import { useRouter } from 'expo-router'
 import { scale , verticalScale , moderateScale } from 'react-native-size-matters'
-import ATM from "../../components/BankingComponents/ATM.jsx"
+import Atm from "../../components/BankingComponents/Atm.jsx"
 import MBanking from "../../components/BankingComponents/MBanking.jsx"
 import IBankig from "../../components/BankingComponents/IBankig.jsx"
 import AppButton from '../../components/AppButton.jsx'
@@ -27,13 +27,13 @@ export default function Selectedvirtualaccount() {
     const page = (selectPage) => {
         switch (selectPage) {
             case "ATM":
-                return <ATM />;
+                return <Atm />;
             case "M-Banking":
                 return <MBanking />;
             case "I-Banking":
                 return <IBankig />;
             default:
-                return <Text>Select an option</Text>;
+                return <Text>"Select an option"</Text>;
         }
     }
 
@@ -44,9 +44,9 @@ export default function Selectedvirtualaccount() {
         router.push("../top-up-pages/withdrawlPage")
     }
 
-    if (loader) {
-        return <LoaderScreen />
-    }
+    // if (loader) {
+    //     return <LoaderScreen />
+    // }
 
   return (
     <View style={style.container}>

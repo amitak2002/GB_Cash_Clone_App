@@ -38,9 +38,9 @@ export default function sendAmountPage1() {
         }
     }
 
-    if (loader) {
-        return <LoaderScreen />
-    }
+    // if (loader) {
+    //     return <LoaderScreen />
+    // }
 
   return (
     <View style={style.container}>

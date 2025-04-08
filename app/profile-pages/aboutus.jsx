@@ -36,11 +36,12 @@ export default function aboutus() {
       </View>
 
       <View style={[{width:(375/375)*responsiveWidth, height:(70/812)*responsiveHeight , ...style.ImageContainer}]}>
-        <Image 
-          source={require("../../assets/PAYPULSE.png")}
-          style={[{width:(65/375)*responsiveWidth, height:(65/812)*responsiveHeight , borderRadius : moderateScale(30)}]}
-
-        />
+        <View style={[{ width:(100/375)*responsiveWidth , height:(100/812)*responsiveHeight ,...style.profilePicContainer}]}>
+          <Image 
+            source={require("../../assets/images/PaypulseIcon.png")}
+            style={[{width:(80/375)*responsiveWidth, height:(80/812)*responsiveHeight , borderRadius : moderateScale(30) , backgroundColor:"#0048A6"}]}
+          />
+        </View>
       </View>
 
       <View style={[{width:(375/375)*responsiveWidth, height:(70/812)*responsiveHeight , ...style.GBCashContainer}]}>
@@ -61,7 +62,7 @@ export default function aboutus() {
                     <View style={[{width:(50/375)*responsiveWidth , height:(50/812)*responsiveHeight , ...style.fontAwesomeContainer}]}>
                       <FontAwesome 
                         name={`${item.icon}`}
-                        color={'blue'}
+                        color={'#050404'}
                         size={25}
                       />
                     </View>
@@ -195,4 +196,12 @@ const style = StyleSheet.create({
     fontStyle: "Urbanist",
 
   },
+  profilePicContainer : {
+    alignItems:"center",
+    justifyContent : "center",
+    marginTop : verticalScale(25),
+    backgroundColor:"#0048A6",
+    borderRadius : moderateScale(100),
+    marginBottom : verticalScale(20)
+  }, 
 })

@@ -44,9 +44,9 @@ export default function TopUpPage() {
         router.push("../top-up-pages/selectedvirtualaccount")
     }
 
-    if (loader) {
-        return <LoaderScreen message={"Please wait.."}/>
-    }
+    // if (loader) {
+    //     return <LoaderScreen message={"Please wait.."}/>
+    // }
   return (
     <View style={style.container}>
 

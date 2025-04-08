@@ -2,7 +2,7 @@ import { View, Text , TouchableOpacity , StyleSheet } from 'react-native'
 import React , {useState} from 'react'
 import { scale , verticalScale , moderateScale } from 'react-native-size-matters'
 
-export default function ATM() {
+export default function Atm() {
 
     const {height : responsiveHeight , width : responsiveWidth} = Dimensions.get("window")
 

@@ -43,10 +43,10 @@ export default function profile() {
       </View>
 
       <View style={[{width : (375/375)*responsiveWidth, height:(735/812)*responsiveHeight , ...style.bottomMainContainer}]}>
-        <View style={[{...style.profilePicContainer , width:(180/375)*responsiveWidth , height:(90/812)*responsiveHeight}]}>
+        <View style={[{...style.profilePicContainer , width:(100/375)*responsiveWidth , height:(100/812)*responsiveHeight}]}>
             <Image 
-              source={require("../../assets/PAYPULSE.png")}
-              style={[{width:(60/375)*responsiveWidth , height:(60/812)*responsiveHeight , ...style.profilePic}]}
+              source={require("../../assets/images/PaypulseIcon.png")}
+              style={[{width:(80/375)*responsiveWidth , height:(80/812)*responsiveHeight , ...style.profilePic}]}
             />
         </View>
 
@@ -110,14 +110,18 @@ const style = StyleSheet.create({
   },
   bottomMainContainer :  {
     alignItems : "center",
+    marginTop : verticalScale()
   },
   profilePicContainer : {
     alignItems:"center",
     justifyContent : "center",
-    marginTop : verticalScale(8)
+    marginTop : verticalScale(25),
+    backgroundColor:"#0048A6",
+    borderRadius : moderateScale(100),
+    marginBottom : verticalScale(20)
   },
   profilePic :{
-    borderRadius : moderateScale(50)
+    borderRadius : moderateScale(100)
   },
   nameContainer : {
     marginTop : verticalScale(8),

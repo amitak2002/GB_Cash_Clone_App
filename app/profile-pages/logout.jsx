@@ -29,27 +29,27 @@ export default function logout() {
         </View>
       
       <View style={[{...style.bottomInnerContainer , width : (375/375)*responsiveWidth , height : (730/812)*responsiveHeight}]}>
-        <View style={[{width : (180/375)*responsiveWidth , height : (200/812)*responsiveHeight , ...style.logOutContainer}]}>
+        <View style={[{width : (250/375)*responsiveWidth , height : (220/812)*responsiveHeight , ...style.logOutContainer}]}>
           <Text style={style.logoutText}>
             Are you sure ?
           </Text>
 
-          <View style={[{width : (180/375)*responsiveWidth , height:(50/812)*responsiveHeight , ...style.buttonContainer}]}>
+          <View style={[{width : (200/375)*responsiveWidth , height:(50/812)*responsiveHeight , ...style.buttonContainer}]}>
             <TouchableOpacity onPress={() => router.push("../end-user")}>
-              <View style={[{width : (75/375)*responsiveWidth , height : (40/812)*responsiveHeight , ...style.button1}]}>
+              <View style={[{width : (80/375)*responsiveWidth , height : (45/812)*responsiveHeight , ...style.button1}]}>
                 <Text style={style.buttonText}>LogOut</Text>
               </View>
             </TouchableOpacity>
             
             <TouchableOpacity onPress={() => router.back()}>
-              <View style={[{width : (75/375)*responsiveWidth , height : (40/812)*responsiveHeight , ...style.button2}]}>
+              <View style={[{width : (80/375)*responsiveWidth , height : (45/812)*responsiveHeight , ...style.button2}]}>
                 <Text style={style.buttonText}> Cancel</Text>
               </View>
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity onPress={() => router.back()}>
-            <View style={[{width : (170/375)*responsiveWidth , height:(45/812)*responsiveHeight , ...style.backContainer}]}>
+            <View style={[{width : (180/375)*responsiveWidth , height:(50/812)*responsiveHeight , ...style.backContainer}]}>
               <Text style={style.backTExt}>Back</Text>
             </View>
           </TouchableOpacity>
@@ -72,7 +72,7 @@ const style = StyleSheet.create({
     backgroundColor : "#020000",
     flexDirection : "row",
     justifyContent : "flex-start",
-    alignItems : "center"
+    alignItems : "center",
   },
   textProfileContainer : {
     marginLeft : scale(18)
@@ -87,7 +87,8 @@ const style = StyleSheet.create({
   },
   bottomInnerContainer : {
       justifyContent : "center",
-      alignItems : "center"
+      alignItems : "center",
+     
   },
   logOutContainer : {
     backgroundColor: "#F7F7F7",
@@ -142,7 +143,7 @@ const style = StyleSheet.create({
   },
   backContainer :{
     backgroundColor:"#327ff3",
-    marginTop : verticalScale(15),
+    marginTop : verticalScale(20),
     borderRadius : moderateScale(8),
     shadowColor:"#00000060",
     shadowOffset : {

@@ -53,28 +53,29 @@ export default function TermsCondition() {
 
 const style = StyleSheet.create({
     flatListContainer : {
-        marginTop : verticalScale(15),
-        marginBottom : verticalScale(8),
-        paddingTop:verticalScale(10),
-        paddingBottom:verticalScale(10),
+        marginTop : verticalScale(10),
+        
+        paddingTop:verticalScale(8),
+        
+        
         
     },
     flatListTextContainer : {
         marginLeft : scale(15),
         marginRight : scale(15),
-        padding:10
+        
     },
     text1 : {
         fontWeight: "600",
-        fontSize: moderateScale(20),
+        fontSize: moderateScale(19),
         color: "#000000",
         lineHeight: verticalScale(20),
         fontStyle: "Urbanist",
-        marginBottom : verticalScale(8)
+        marginBottom : verticalScale(6)
     },
     text2 : {
         fontWeight: "400",
-        fontSize: moderateScale(16),
+        fontSize: moderateScale(13),
         color: "#0048A6",
         lineHeight: verticalScale(18),
         fontStyle: "Urbanist",

@@ -53,9 +53,9 @@ export default function sendAmountPage2() {
         }
     } , [name , number])
 
-    if (loader) {
-        return <LoaderScreen message={"Please Wait.."}/>
-    }
+    // if (loader) {
+    //     return <LoaderScreen message={"Please Wait.."}/>
+    // }
 
   return (
     

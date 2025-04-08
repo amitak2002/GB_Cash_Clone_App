@@ -54,9 +54,9 @@ export default function Contacts() {
         router.push({pathname : "./sendAmountPage1" , params : {contactName : nameUsers , email : email}})
     }
 
-    if (loader) {
-        return <LoaderScreen />
-    }
+    // if (loader) {
+    //     return <LoaderScreen />
+    // }
 
     return (
         <View style={style.container}>

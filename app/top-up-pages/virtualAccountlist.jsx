@@ -20,9 +20,9 @@ export default function VirtualAccount() {
     const {height : responsiveHeight , width : responsiveWidth} = Dimensions.get("window")
     const router = useRouter()
 
-    if (loader) {
-        return <LoaderScreen message={"Please wait.."}/>
-    }
+    // if (loader) {
+    //     return <LoaderScreen message={"Please wait.."}/>
+    // }
 
 
   return (

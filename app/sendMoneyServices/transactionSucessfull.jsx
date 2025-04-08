@@ -20,9 +20,9 @@ const TransactionSucessfull = () => {
         router.replace("../end-user")
     }
 
-    if (loader) {
-        return <LoaderScreen message={"please wait.."}/>
-    }
+    // if (loader) {
+    //     return <LoaderScreen message={"please wait.."}/>
+    // }
 
     return (
         <View style={style.container}>

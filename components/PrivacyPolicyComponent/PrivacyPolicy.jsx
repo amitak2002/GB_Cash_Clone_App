@@ -74,26 +74,28 @@ export default function PrivacyPolicy() {
 
 const style = StyleSheet.create({
   flatListContaiiner : {
-    marginBottom : verticalScale(8),
+    
     alignItems:"center",
     justifyContent:"center",
-    padding:moderateScale(25)
+    marginBottom : verticalScale(15),
+    
   },
   text1 : {
     color : "#020202",
       fontWeight: "700",
-      fontSize: moderateScale(22),
+      fontSize: moderateScale(19),
   
       lineHeight: verticalScale(20),
       fontStyle: "Urbanist",
+      marginTop : verticalScale(10)
   },
   text2 : {
       color : "#0048A6",
       fontWeight: "400",
-      fontSize: moderateScale(18),
+      fontSize: moderateScale(13),
   
       lineHeight: verticalScale(20),
       fontStyle: "Urbanist",
-      marginTop : verticalScale(8)
+      marginTop : verticalScale(4)
   }
 })

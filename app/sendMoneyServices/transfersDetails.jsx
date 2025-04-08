@@ -25,9 +25,9 @@ export default function transfersDetails() {
         router.push("../sendMoneyServices/transactionSucessfull")
     }
 
-    if (loader) {
-        return <LoaderScreen message={"please wait"}/>
-    }
+    // if (loader) {
+    //     return <LoaderScreen message={"please wait"}/>
+    // }
 
   return (
     <View style={style.container}>
