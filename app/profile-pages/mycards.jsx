@@ -43,7 +43,7 @@ export default function Card() {
 
           <View style={[{width:(375/375)*responsiveWidth , height : (140/812)*responsiveHeight , ...style.cardShow2}]}>
             <View style={[{width : (58/375)*responsiveWidth, height:(58/812)*responsiveHeight , ...style.imageContainer}]}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push("../profile-pages/creditcardadd")}>
                 <Image 
                   source={require('../../assets/images/AddVaulet.png')}
                   style={[{width : (58/375)*responsiveWidth, height:(58/812)*responsiveHeight , ...style.image}]}
@@ -52,6 +52,7 @@ export default function Card() {
             </View>
           </View>
         </View>
+        
         {/**modal */}
         <Modal
           visible={option}
